@@ -1,4 +1,4 @@
-import './globals.css';
+import '@/app/styles/globals.css';
 
 const RootLayout = ({
 	children,

@@ -1,5 +1,10 @@
-import { AuthCustomImage, AuthHeader, AuthSection, AuthWrapperForms } from '../components';
-import SignInForm from './components/sign-in-form';
+import {
+	AuthCustomImage,
+	AuthHeader,
+	AuthSection,
+	AuthWrapperForms,
+} from '../components';
+import { SignInForm } from './components/sign-in-form';
 
 const SignInPage = () => {
 	return (

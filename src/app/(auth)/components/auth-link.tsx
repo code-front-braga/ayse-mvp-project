@@ -6,9 +6,9 @@ interface AuthLinkProps {
 	linkText: string;
 }
 
-const AuthLink = ({ href, text, linkText }: AuthLinkProps) => {
+export const AuthLink = ({ href, text, linkText }: AuthLinkProps) => {
 	return (
-		<div className="mt-6 text-center text-sm">
+		<div className="mt-6 text-center text-xs md:text-sm">
 			<span className="text-muted-foreground">{text}</span>{' '}
 			<Link href={href} className="text-primary font-medium hover:underline">
 				{linkText}
@@ -16,5 +16,3 @@ const AuthLink = ({ href, text, linkText }: AuthLinkProps) => {
 		</div>
 	);
 };
-
-export default AuthLink;

@@ -1,0 +1,15 @@
+export enum ZodErrors {
+	NAME_IS_REQUIRED = 'Nome é obrigatório',
+	NAME_MAX_CHARACTERS = 'Nome deve ter no máximo 30 caracteres',
+	INVALID_EMAIL = 'Email inválido',
+	EMAIL_IS_REQUIRED = 'Email é obrigatório',
+	PASSWORD_IS_REQUIRED = 'Senha é obrigatória',
+	INVALID_PASSWORD = 'Senha inválida',
+	PASSWORD_MIN_CHARACTERS = 'Senha deve ter pelo menos 6 caracteres',
+	PASSWORD_MUST_CONTAIN_UPPERCASE = 'Senha deve conter pelo menos uma letra maiúscula',
+	PASSWORD_MUST_CONTAIN_LOWERCASE = 'Senha deve conter pelo menos uma letra minúscula',
+	PASSWORD_MUST_CONTAIN_NUMBER = 'Senha deve conter pelo menos um número',
+	PASSWORD_MUST_CONTAIN_SPECIAL_CHARACTER = 'Senha deve conter pelo menos um caractere especial',
+	CONFIRM_PASSWORD_IS_REQUIRED = 'Confirmação de senha é obrigatória',
+	PASSWORDS_MUST_BE_EQUAL = 'Confirmação de senha deve ser igual à senha',
+}

@@ -3,13 +3,11 @@ interface AuthFormHeaderProps {
 	description: string;
 }
 
-const AuthFormHeader = ({ title, description }: AuthFormHeaderProps) => {
+export const AuthFormHeader = ({ title, description }: AuthFormHeaderProps) => {
 	return (
 		<div className="space-y-2 text-center">
-			<h2 className="text-xl font-semibold">{title}</h2>
-			<p className="text-muted-foreground text-sm">{description}</p>
+			<h2 className="text-lg font-semibold md:text-xl">{title}</h2>
+			<p className="text-muted-foreground text-xs md:text-sm">{description}</p>
 		</div>
 	);
 };
-
-export default AuthFormHeader;

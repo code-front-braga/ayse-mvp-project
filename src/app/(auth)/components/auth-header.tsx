@@ -1,6 +1,6 @@
 import { ChartNoAxesCombined } from 'lucide-react';
 
-import { COLORS } from '@/app/constants/colors';
+import { COLORS } from '@/app/enums/colors';
 
 export const AuthHeader = () => {
 	return (

@@ -3,8 +3,9 @@
  * Facilita a importação de múltiplos componentes de um mesmo diretório
  */
 
-export { default as AuthCustomImage } from './auth-custom-image';
+export { AuthCustomImage } from './auth-custom-image';
+export { AuthFormHeader } from './auth-form-header';
 export { AuthHeader } from './auth-header';
-export { default as AuthLink } from './auth-link';
-export { default as AuthSection } from './auth-section';
-export { default as AuthWrapperForms } from './auth-wrapper-forms';
+export { AuthLink } from './auth-link';
+export { AuthSection } from './auth-section';
+export { AuthWrapperForms } from './auth-wrapper-forms';

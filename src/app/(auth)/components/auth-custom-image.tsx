@@ -6,7 +6,11 @@ interface AuthCustomImageProps {
 	description: string;
 }
 
-const AuthCustomImage = ({ src, alt, description }: AuthCustomImageProps) => {
+export const AuthCustomImage = ({
+	src,
+	alt,
+	description,
+}: AuthCustomImageProps) => {
 	return (
 		<div className="bg-primary relative hidden lg:block">
 			<Image
@@ -23,5 +27,3 @@ const AuthCustomImage = ({ src, alt, description }: AuthCustomImageProps) => {
 		</div>
 	);
 };
-
-export default AuthCustomImage;

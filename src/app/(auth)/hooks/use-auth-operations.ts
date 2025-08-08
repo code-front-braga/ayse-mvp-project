@@ -74,6 +74,7 @@ export const useAuthOperations = () => {
 	const signInWithGoogle = async () => {
 		await authClient.signIn.social({
 			provider: 'google',
+			callbackURL: AppRoutes.DASHBOARD_OVERVIEW,
 		});
 	};
 

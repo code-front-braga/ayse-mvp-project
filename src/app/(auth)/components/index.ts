@@ -9,3 +9,5 @@ export { AuthHeader } from './auth-header';
 export { AuthLink } from './auth-link';
 export { AuthSection } from './auth-section';
 export { AuthWrapperForms } from './auth-wrapper-forms';
+export { PasswordField } from './password-field';
+export { SubmitButton } from './submit-button';

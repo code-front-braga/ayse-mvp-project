@@ -1,16 +1,14 @@
 import { CheckIcon, XIcon } from 'lucide-react';
 import { useMemo } from 'react';
-import { Control, FieldValues, Path, useWatch } from 'react-hook-form';
 
 interface PasswordRequirement {
 	regex: RegExp;
 	text: string;
 }
 
-interface PasswordStrengthBarProps<T extends FieldValues> {
-	control: Control<T>;
+interface PasswordStrengthBarProps {
+	password: string;
 	className?: string;
-	name?: Path<T>;
 }
 
 const PASSWORD_REQUIREMENTS: PasswordRequirement[] = [
@@ -30,12 +28,10 @@ const STRENGTH_CONFIG = {
 	5: { color: 'bg-emerald-500', label: 'Senha forte' },
 } as const;
 
-export const PasswordStrengthBar = <T extends FieldValues>({
-	control,
-	name = 'password' as Path<T>,
+export const PasswordStrengthBar = ({
+	password,
 	className,
-}: PasswordStrengthBarProps<T>) => {
-	const password = useWatch({ control, name });
+}: PasswordStrengthBarProps) => {
 
 	const strength = useMemo(
 		() =>

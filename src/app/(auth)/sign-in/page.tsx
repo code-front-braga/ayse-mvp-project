@@ -16,7 +16,8 @@ const SignInPage = () => {
 			<AuthCustomImage
 				src="/auth_bg.jpg"
 				alt="Uma mulher segurando e olhando para um celular."
-				description="Controle todos os seus gastos em supermercados."
+				description="Faça login e comece a gerenciar seus gastos."
+
 			/>
 		</AuthSection>
 	);

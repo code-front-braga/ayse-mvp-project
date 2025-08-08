@@ -1,5 +1,7 @@
 import '@/app/styles/globals.css';
 
+import { Toaster } from '@/components/ui/sonner';
+
 import { fonts } from './styles/fonts';
 
 const RootLayout = ({
@@ -13,6 +15,7 @@ const RootLayout = ({
 				className={` ${fonts.inter.className} ${fonts.alumni.className} ${fonts.zain.className} antialiased`}
 			>
 				{children}
+				<Toaster richColors={true} position="top-left" closeButton={true} />
 			</body>
 		</html>
 	);

@@ -19,9 +19,9 @@ export const AuthCustomImage = ({
 				fill
 				quality={100}
 				priority={true}
-				className="object-cover opacity-30"
+				className="object-cover opacity-50"
 			/>
-			<p className="text-background font-zain absolute top-2/6 left-4 w-xl text-4xl font-bold">
+			<p className="text-background font-zain absolute top-1/2 left-4 w-xl -translate-y-1/2 text-4xl font-bold text-shadow-lg">
 				{description}
 			</p>
 		</div>

@@ -1,7 +1,10 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
+import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 import {
 	Form,
@@ -13,19 +16,21 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { AppRoutes } from '@/enums/app-routes';
+import { authClient } from '@/lib/auth-client';
 
-import { AuthLink } from '../../components';
+import { AuthLink } from '../../components/auth-link';
 import { PasswordField } from '../../components/password-field';
-import { PasswordStrengthBar } from '../../components/password-strength-bar';
+import { PasswordStrengthIndicator } from '../../components/password-strength-indicator';
 import { SubmitButton } from '../../components/submit-button';
-import { useAuthOperations } from '../../hooks/use-auth-operations';
-import { signUpFormSchema, SignUpFormValues } from '../../schemas/auth-schemas';
+import { SignUpFormData, signUpSchema } from '../../schemas/auth-schemas';
 
 export const SignUpForm = () => {
-	const { isPending, signUp } = useAuthOperations();
+	const [isPending, startTransition] = useTransition();
 
-	const form = useForm<SignUpFormValues>({
-		resolver: zodResolver(signUpFormSchema),
+	const router = useRouter();
+
+	const form = useForm<SignUpFormData>({
+		resolver: zodResolver(signUpSchema),
 		defaultValues: {
 			name: '',
 			email: '',
@@ -34,8 +39,27 @@ export const SignUpForm = () => {
 		},
 	});
 
-	const onSubmit = (data: SignUpFormValues) => {
-		signUp(data, form.setError);
+	const onSubmit = async (data: SignUpFormData) => {
+		startTransition(async () => {
+			await authClient.signUp.email({
+				name: data.name,
+				email: data.email,
+				password: data.password,
+
+				fetchOptions: {
+					onSuccess: () => {
+						toast.success('Conta criada com sucesso!');
+						router.push(AppRoutes.SIGN_IN);
+					},
+					onError: ctx => {
+						if (ctx.error.code === 'USER_ALREADY_EXISTS') {
+							toast.error('E-mail já cadastrado');
+							form.setFocus('email');
+						}
+					},
+				},
+			});
+		});
 	};
 
 	return (
@@ -76,7 +100,7 @@ export const SignUpForm = () => {
 
 					<PasswordField control={form.control} name="password" label="Senha" />
 
-					<PasswordStrengthBar password={form.watch('password')} />
+					<PasswordStrengthIndicator password={form.watch('password')} />
 
 					<PasswordField
 						control={form.control}

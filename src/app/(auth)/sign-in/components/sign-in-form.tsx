@@ -1,7 +1,10 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
+import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -14,26 +17,52 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { AppRoutes } from '@/enums/app-routes';
+import { authClient } from '@/lib/auth-client';
 
-import { AuthLink } from '../../components';
+import { AuthLink } from '../../components/auth-link';
 import { PasswordField } from '../../components/password-field';
 import { SubmitButton } from '../../components/submit-button';
-import { useAuthOperations } from '../../hooks/use-auth-operations';
-import { signInFormSchema, SignInFormValues } from '../../schemas/auth-schemas';
+import { SignInFormData, signInSchema } from '../../schemas/auth-schemas';
 
 export const SignInForm = () => {
-	const { isPending, signIn, signInWithGoogle } = useAuthOperations();
+	const [isPending, startTransition] = useTransition();
 
-	const form = useForm<SignInFormValues>({
-		resolver: zodResolver(signInFormSchema),
+	const router = useRouter();
+
+	const form = useForm<SignInFormData>({
+		resolver: zodResolver(signInSchema),
 		defaultValues: {
 			email: '',
 			password: '',
 		},
 	});
 
-	const onSubmit = (data: SignInFormValues) => {
-		signIn(data, form.setError);
+	const onSubmit = async (data: SignInFormData) => {
+		startTransition(async () => {
+			await authClient.signIn.email({
+				email: data.email,
+				password: data.password,
+
+				fetchOptions: {
+					onSuccess: () => {
+						toast.success('Login realizado com sucesso!');
+						router.push(AppRoutes.DASHBOARD_OVERVIEW);
+					},
+					onError: ctx => {
+						if (ctx.error.code === 'INVALID_EMAIL_OR_PASSWORD') {
+							toast.error('E-mail ou senha inválidos.');
+						}
+						toast.error(ctx.error.message);
+					},
+				},
+			});
+		});
+	};
+
+	const signInWithGoogle = async () => {
+		await authClient.signIn.social({
+			provider: 'google',
+		});
 	};
 
 	return (
@@ -94,9 +123,9 @@ export const SignInForm = () => {
 			</Form>
 
 			<AuthLink
+				href="/sign-up"
 				text="Não tem uma conta?"
 				linkText="Cadastre-se"
-				href={AppRoutes.SIGN_UP}
 			/>
 		</div>
 	);

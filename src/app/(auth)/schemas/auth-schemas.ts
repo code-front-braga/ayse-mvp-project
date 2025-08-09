@@ -1,7 +1,6 @@
 import z from 'zod';
 
-import { toLowerCase } from '@/helpers/to-lower-case';
-import { toTitleCase } from '@/helpers/to-title-case';
+import { stringUtils } from '@/helpers/string-utils';
 
 import {
 	LOWER_CASE_REGEX,
@@ -12,59 +11,44 @@ import {
 import { ZodErrors } from '../enums/zod-errors';
 
 const emailSchema = z
-	.email({ error: ZodErrors.INVALID_EMAIL })
-	.min(1, { error: ZodErrors.EMAIL_IS_REQUIRED })
+	.email(ZodErrors.INVALID_EMAIL)
+	.min(1, ZodErrors.EMAIL_IS_REQUIRED)
 	.trim()
-	.transform(toLowerCase);
+	.transform(stringUtils.toLowerCase);
 
-const passwordSchema = z
-	.string()
-	.min(6, { error: ZodErrors.PASSWORD_MIN_CHARACTERS })
-	.trim()
-	.regex(UPPER_CASE_REGEX, {
-		error: ZodErrors.PASSWORD_MUST_CONTAIN_UPPERCASE,
-	})
-	.regex(LOWER_CASE_REGEX, {
-		error: ZodErrors.PASSWORD_MUST_CONTAIN_LOWERCASE,
-	})
-	.regex(NUMBER_REGEX, { error: ZodErrors.PASSWORD_MUST_CONTAIN_NUMBER })
-	.regex(SPECIAL_CHARACTER_REGEX, {
-		error: ZodErrors.PASSWORD_MUST_CONTAIN_SPECIAL_CHARACTER,
-	});
-
-const simplePasswordSchema = z
-	.string()
-	.min(1, { error: ZodErrors.PASSWORD_IS_REQUIRED })
-	.min(6, { error: ZodErrors.PASSWORD_MIN_CHARACTERS });
-
-const nameSchema = z
-	.string()
-	.min(6, { error: ZodErrors.NAME_IS_REQUIRED })
-	.max(30, { error: ZodErrors.NAME_MAX_CHARACTERS })
-	.trim()
-	.transform(toTitleCase);
-
-const confirmPasswordSchema = z
-	.string()
-	.min(1, { error: ZodErrors.CONFIRM_PASSWORD_IS_REQUIRED })
-	.trim();
-
-export const signInFormSchema = z.object({
+export const signInSchema = z.object({
 	email: emailSchema,
-	password: simplePasswordSchema,
+	password: z.string().min(1, ZodErrors.PASSWORD_IS_REQUIRED),
 });
 
-export const signUpFormSchema = z
+export type SignInFormData = z.infer<typeof signInSchema>;
+
+export const signUpSchema = z
 	.object({
-		name: nameSchema,
+		name: z
+			.string()
+			.min(2, ZodErrors.NAME_IS_REQUIRED)
+			.max(30, ZodErrors.NAME_MAX_CHARACTERS)
+			.trim()
+			.transform(stringUtils.toTitleCase),
 		email: emailSchema,
-		password: passwordSchema,
-		confirmPassword: confirmPasswordSchema,
+		password: z
+			.string()
+			.min(8, ZodErrors.PASSWORD_MIN_CHARACTERS)
+			.regex(UPPER_CASE_REGEX, ZodErrors.PASSWORD_MUST_CONTAIN_UPPERCASE)
+			.regex(LOWER_CASE_REGEX, ZodErrors.PASSWORD_MUST_CONTAIN_LOWERCASE)
+			.regex(NUMBER_REGEX, ZodErrors.PASSWORD_MUST_CONTAIN_NUMBER)
+			.regex(
+				SPECIAL_CHARACTER_REGEX,
+				ZodErrors.PASSWORD_MUST_CONTAIN_SPECIAL_CHARACTER,
+			),
+
+		confirmPassword: z.string().min(1, ZodErrors.CONFIRM_PASSWORD_IS_REQUIRED),
 	})
 	.refine(data => data.password === data.confirmPassword, {
+		message: ZodErrors.PASSWORDS_MUST_BE_EQUAL,
+
 		path: ['confirmPassword'],
-		error: ZodErrors.PASSWORDS_MUST_BE_EQUAL,
 	});
 
-export type SignInFormValues = z.infer<typeof signInFormSchema>;
-export type SignUpFormValues = z.infer<typeof signUpFormSchema>;
+export type SignUpFormData = z.infer<typeof signUpSchema>;

@@ -32,7 +32,6 @@ export const PasswordStrengthBar = ({
 	password,
 	className,
 }: PasswordStrengthBarProps) => {
-
 	const strength = useMemo(
 		() =>
 			PASSWORD_REQUIREMENTS.map(req => ({

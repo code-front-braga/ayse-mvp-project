@@ -1,6 +1,7 @@
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 
+import { SidebarProvider } from '@/components/ui/sidebar';
 import { AppRoutes } from '@/enums/app-routes';
 import { auth } from '@/lib/auth';
 
@@ -16,15 +17,13 @@ const DashboardLayout = async ({ children }: DashboardLayoutProps) => {
 	if (!session?.user) redirect(AppRoutes.SIGN_IN);
 
 	return (
-		<div className="bg-background min-h-screen">
-			<header className="bg-card border-b">
-				<div className="container mx-auto flex items-center justify-between px-4 py-4">
-					<h1 className="text-2xl font-bold">Dashboard</h1>
+		<SidebarProvider>
+			<main>
+				<div>
+					<div>{children}</div>
 				</div>
-			</header>
-
-			<main className="container mx-auto px-4 py-6">{children}</main>
-		</div>
+			</main>
+		</SidebarProvider>
 	);
 };
 

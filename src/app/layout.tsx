@@ -1,40 +1,47 @@
 import '@/app/styles/globals.css';
 
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 
 import { Toaster } from '@/components/ui/sonner';
 
-const inter = Inter({ subsets: ['latin'] });
+import { fonts } from './styles/fonts';
 
 export const metadata: Metadata = {
-	title: 'MVP Ayse',
+	title: 'ayse',
 	description: 'Aplicação MVP desenvolvida com Next.js e tecnologias modernas',
-	keywords: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'MVP'],
-	authors: [{ name: 'MVP Ayse Team' }],
+	keywords: [
+		'Next.js',
+		'React',
+		'TypeScript',
+		'Tailwind CSS',
+		'MVP',
+		'Supermarket',
+		'Finance',
+		'Control',
+		'Money',
+		'Dashboard',
+		'Panel',
+	],
+	authors: [{ name: 'Leonardo Braga' }],
 	openGraph: {
-		title: 'MVP Ayse',
+		title: 'ayse - all your supermarket expenses',
 		description:
 			'Aplicação MVP desenvolvida com Next.js e tecnologias modernas',
 		type: 'website',
 		locale: 'pt_BR',
 	},
-	twitter: {
-		card: 'summary_large_image',
-		title: 'MVP Ayse',
-		description:
-			'Aplicação MVP desenvolvida com Next.js e tecnologias modernas',
-	},
 };
 
-export default function RootLayout({
-	children,
-}: {
+interface RootLayoutProps {
 	children: React.ReactNode;
-}) {
+}
+
+export default function RootLayout({ children }: RootLayoutProps) {
 	return (
 		<html lang="pt-BR" suppressHydrationWarning>
-			<body className={inter.className} suppressHydrationWarning>
+			<body
+				className={`${fonts.inter.className} ${fonts.alumni.className} ${fonts.zain.className} antialiased`}
+			>
 				{children}
 				<Toaster richColors position="top-left" />
 			</body>

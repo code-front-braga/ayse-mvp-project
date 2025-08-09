@@ -4,7 +4,11 @@ import { redirect } from 'next/navigation';
 import { AppRoutes } from '@/enums/app-routes';
 import { auth } from '@/lib/auth';
 
-const AuthLayout = async ({ children }: { children: React.ReactNode }) => {
+interface AuthLayoutProps {
+	children: React.ReactNode;
+}
+
+const AuthLayout = async ({ children }: AuthLayoutProps) => {
 	const session = await auth.api.getSession({
 		headers: await headers(),
 	});

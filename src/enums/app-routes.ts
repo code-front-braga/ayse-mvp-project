@@ -4,4 +4,5 @@ export enum AppRoutes {
 	SIGN_IN = '/sign-in',
 	DASHBOARD_OVERVIEW = '/dashboard/overview',
 	API_AUTH = '/api/auth',
+	VERIFY_EMAIL = '/verify-email',
 }

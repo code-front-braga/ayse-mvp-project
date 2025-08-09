@@ -48,7 +48,7 @@ export const SignUpForm = () => {
 
 				fetchOptions: {
 					onSuccess: () => {
-						toast.success('Conta criada com sucesso!');
+						toast.success('Conta criada! Verifique seu email para ativar.');
 						router.push(AppRoutes.SIGN_IN);
 					},
 					onError: ctx => {

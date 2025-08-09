@@ -154,8 +154,8 @@ const buttonContainer = {
 };
 
 const button = {
-	backgroundColor: '#3b82f6',
-	backgroundImage: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
+	backgroundColor: '#d97706',
+	backgroundImage: 'linear-gradient(135deg, #d97706 0%, #b45309 100%)',
 	borderRadius: '8px',
 	color: '#ffffff',
 	fontSize: '16px',
@@ -165,12 +165,12 @@ const button = {
 	display: 'inline-block',
 	padding: '14px 28px',
 	margin: '0 auto',
-	boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)',
+	boxShadow: '0 4px 12px rgba(217, 119, 6, 0.3)',
 	border: 'none',
 };
 
 const link = {
-	color: '#3b82f6',
+	color: '#d97706',
 	fontSize: '14px',
 	textDecoration: 'underline',
 	wordBreak: 'break-all' as const,

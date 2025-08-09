@@ -1,8 +1,8 @@
 import { betterAuth } from 'better-auth';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
-import { nextCookies } from 'better-auth/next-js';
 
 import { sendEmail } from '@/actions/send-email';
+import { AppRoutes } from '@/enums/app-routes';
 
 import { prisma } from './client';
 
@@ -28,14 +28,12 @@ export const auth = betterAuth({
 		sendVerificationEmail: async ({ user, url }) => {
 			const modifiedUrl = url.replace(
 				'/api/auth/verify-email',
-				'/verify-email',
+				AppRoutes.VERIFY_EMAIL,
 			);
 			await sendEmail({ user, url: modifiedUrl });
 		},
 		sendOnSignUp: true,
-		autoSignInAfterVerification: true,
+		autoSignInAfterVerification: false,
 		expiresIn: 3600,
 	},
-
-	plugins: [nextCookies()],
 });

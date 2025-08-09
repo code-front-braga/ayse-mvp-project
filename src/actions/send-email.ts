@@ -22,14 +22,12 @@ interface SendEmailParams {
 
 export const sendEmail = async ({ url, user }: SendEmailParams) => {
 	try {
-		// Validar configurações
 		validateEmailConfig();
 
 		if (!user.email) {
 			throw new Error('Email do usuário não encontrado');
 		}
 
-		// Enviar email
 		const { data, error } = await resend.emails.send({
 			from: emailConfig.fromEmail,
 			to: [user.email],

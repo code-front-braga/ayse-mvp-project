@@ -52,7 +52,6 @@ export const SignInForm = () => {
 						if (ctx.error.code === 'INVALID_EMAIL_OR_PASSWORD') {
 							toast.error('E-mail ou senha inválidos.');
 						}
-						toast.error(ctx.error.message);
 					},
 				},
 			});

@@ -7,7 +7,7 @@ import LandingHeroSection from './components/landing-hero-section';
 
 const LandingPage = () => {
 	return (
-		<div className="from-primary/10 to-primary/5 min-h-screen bg-gradient-to-br via-white">
+		<div className="from-primary/10 to-primary/5 via-background min-h-screen bg-gradient-to-br">
 			<LandingHeader />
 			<LandingHeroSection />
 			<LandingFeaturesSection />

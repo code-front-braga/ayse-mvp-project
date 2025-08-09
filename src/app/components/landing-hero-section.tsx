@@ -8,9 +8,8 @@ const LandingHeroSection = () => {
 		<section className="container mx-auto px-4 py-12 text-center sm:py-20">
 			<div className="mx-auto max-w-4xl">
 				<h1 className="mb-4 text-3xl leading-tight font-bold text-gray-900 sm:mb-6 sm:text-5xl md:text-6xl">
-					Controle suas
+					Controle suas{' '}
 					<span className="from-primary to-primary/70 bg-gradient-to-r bg-clip-text text-transparent">
-						{' '}
 						compras{' '}
 					</span>
 					de supermercado
@@ -33,7 +32,7 @@ const LandingHeroSection = () => {
 						size="lg"
 						className="w-full px-6 py-3 text-base sm:w-auto sm:px-8 sm:py-6 sm:text-lg"
 					>
-						<Link href="#recursos">Ver Como Funciona</Link>
+						<Link href="#resources">Ver Como Funciona</Link>
 					</Button>
 				</div>
 			</div>

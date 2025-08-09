@@ -67,6 +67,7 @@ Pedidos fora desse escopo devem ser recusados educadamente, com redirecionamento
 - Código sem redundância.
 - Clareza e legibilidade máximas.
 - Não inventar dependências ou APIs inexistentes.
+- Não solicitar ao usuário rodar o comando pnpm dev ou npm run dev. Isso deve ser escolha do usuário.
 
 ---
 

@@ -3,11 +3,12 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { AppRoutes } from '@/enums/app-routes';
 
+import { benefits } from '../data/benefits';
 import BenefitItem from './benefit-item';
 
 const LandingBenefitsSection = () => {
 	return (
-		<section className="bg-primary/5 py-12 sm:py-20">
+		<section className="bg-primary/15 py-12 sm:py-20">
 			<div className="container mx-auto px-4">
 				<div className="grid items-center gap-8 sm:gap-12 lg:grid-cols-2">
 					<div className="order-2 lg:order-1">
@@ -15,12 +16,9 @@ const LandingBenefitsSection = () => {
 							Por que escolher o ayse?
 						</h2>
 						<div className="space-y-3 sm:space-y-4">
-							<BenefitItem text="Interface simples e intuitiva" />
-							<BenefitItem text="Categorização automática de produtos" />
-							<BenefitItem text="Relatórios de gastos detalhados" />
-							<BenefitItem text="Alertas de orçamento personalizados" />
-							<BenefitItem text="Comparação entre supermercados" />
-							<BenefitItem text="Histórico completo de compras" />
+							{benefits.map(benefit => (
+								<BenefitItem key={benefit.id} text={benefit.text} />
+							))}
 						</div>
 					</div>
 					<div className="border-primary/10 order-1 rounded-2xl border bg-white p-6 shadow-xl sm:p-8 lg:order-2">

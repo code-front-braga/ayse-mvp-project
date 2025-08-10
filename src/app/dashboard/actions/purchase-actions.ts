@@ -8,7 +8,7 @@ import { prisma } from '@/lib/client';
 
 import { CreatePurchaseSchema } from '../schemas/purchase-schema';
 
-export const createPurchase = async (data: CreatePurchaseSchema) => {
+export const createPurchaseAction = async (data: CreatePurchaseSchema) => {
 	try {
 		const session = await auth.api.getSession({ headers: await headers() });
 		const userId = session?.user?.id;
@@ -18,7 +18,7 @@ export const createPurchase = async (data: CreatePurchaseSchema) => {
 
 		const total = 0;
 
-		await prisma.purchase.create({
+		const purchase = await prisma.purchase.create({
 			data: {
 				userId,
 				supermarket,
@@ -27,10 +27,12 @@ export const createPurchase = async (data: CreatePurchaseSchema) => {
 				total,
 				status: PurchaseStatus.IN_PROCESS,
 			},
+			select: { id: true },
 		});
 
 		return {
 			success: 'Compra criada com sucesso! Comece a adicionar produtos.',
+			id: purchase.id,
 		};
 	} catch (error) {
 		if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -38,7 +40,7 @@ export const createPurchase = async (data: CreatePurchaseSchema) => {
 				return { error: 'Já existe uma compra em andamento.' };
 			}
 		}
-		
+
 		console.error('Erro ao criar compra:', error);
 		return { error: 'Erro interno do servidor. Tente novamente.' };
 	}

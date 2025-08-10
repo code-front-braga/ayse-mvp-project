@@ -21,7 +21,7 @@ import { authClient } from '@/lib/auth-client';
 
 import { AuthLink } from '../../components/auth-link';
 import { PasswordField } from '../../components/password-field';
-import { SubmitButton } from '../../components/submit-button';
+import { SubmitButton } from '../../../components/shared/submit-button';
 import { SignInFormData, signInSchema } from '../../schemas/auth-schemas';
 
 export const SignInForm = () => {
@@ -37,7 +37,7 @@ export const SignInForm = () => {
 		},
 	});
 
-	const onSubmit = async (data: SignInFormData) => {
+	const handleSignIn = form.handleSubmit(async (data: SignInFormData) => {
 		startTransition(async () => {
 			await authClient.signIn.email({
 				email: data.email,
@@ -56,7 +56,7 @@ export const SignInForm = () => {
 				},
 			});
 		});
-	};
+	});
 
 	const signInWithGoogle = async () => {
 		await authClient.signIn.social({
@@ -68,7 +68,7 @@ export const SignInForm = () => {
 	return (
 		<div className="w-full max-w-[400px] space-y-6 py-6">
 			<Form {...form}>
-				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+				<form onSubmit={handleSignIn} className="space-y-4">
 					<FormField
 						control={form.control}
 						name="email"

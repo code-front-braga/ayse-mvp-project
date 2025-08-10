@@ -21,7 +21,7 @@ import { authClient } from '@/lib/auth-client';
 import { AuthLink } from '../../components/auth-link';
 import { PasswordField } from '../../components/password-field';
 import { PasswordStrengthIndicator } from '../../components/password-strength-indicator';
-import { SubmitButton } from '../../components/submit-button';
+import { SubmitButton } from '../../../components/shared/submit-button';
 import { SignUpFormData, signUpSchema } from '../../schemas/auth-schemas';
 
 export const SignUpForm = () => {
@@ -39,7 +39,7 @@ export const SignUpForm = () => {
 		},
 	});
 
-	const onSubmit = async (data: SignUpFormData) => {
+	const handleSignUp = form.handleSubmit(async (data: SignUpFormData) => {
 		startTransition(async () => {
 			await authClient.signUp.email({
 				name: data.name,
@@ -60,12 +60,12 @@ export const SignUpForm = () => {
 				},
 			});
 		});
-	};
+	});
 
 	return (
 		<div className="w-full max-w-[400px] space-y-6 py-6">
 			<Form {...form}>
-				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+				<form onSubmit={handleSignUp} className="space-y-4">
 					<FormField
 						control={form.control}
 						name="name"

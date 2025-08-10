@@ -7,4 +7,5 @@ export enum AppRoutes {
 	VERIFY_EMAIL = '/verify-email',
 	DASHBOARD_PURCHASES = '/dashboard/purchases',
 	DASHBOARD_ACCOUNT = '/dashboard/account',
+	DASHBOARD_NEW_PURCHASE = '/dashboard/new-purchase',
 }

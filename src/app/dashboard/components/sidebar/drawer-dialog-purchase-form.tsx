@@ -28,14 +28,29 @@ import { useIsMobile } from '@/hooks/use-mobile';
 
 import CreatePurchaseForm from './create-purchase-form';
 
-const DrawerDialogPurchaseForm = () => {
+interface DrawerDialogPurchaseFormProps {
+	isDrawerOpen: boolean;
+	isAlertDialogOpen: boolean;
+	setIsDrawerOpen: (isOpen: boolean) => void;
+	setIsAlertDialogOpen: (isOpen: boolean) => void;
+	setIsSidebarOpen?: (isOpen: boolean) => void;
+}
+
+const DrawerDialogPurchaseForm = ({
+	isDrawerOpen,
+	setIsDrawerOpen,
+	isAlertDialogOpen,
+	setIsSidebarOpen,
+	setIsAlertDialogOpen,
+}: DrawerDialogPurchaseFormProps) => {
 	const isMobile = useIsMobile();
 
 	if (isMobile) {
 		return (
-			<Drawer>
+			<Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
 				<DrawerTrigger asChild>
 					<SidebarMenuButton
+						onClick={() => setIsDrawerOpen(true)}
 						tooltip="Cadastrar compra"
 						className="text-primary-foreground hover:text-primary-foreground active:text-primary-foreground min-w-8 bg-gray-800 duration-200 ease-linear hover:bg-gray-700 active:bg-gray-800"
 					>
@@ -51,7 +66,10 @@ const DrawerDialogPurchaseForm = () => {
 						</DrawerDescription>
 					</DrawerHeader>
 					<DrawerFooter>
-						<CreatePurchaseForm />
+						<CreatePurchaseForm
+							setIsDrawerOpen={setIsDrawerOpen}
+							setIsSidebarOpen={setIsSidebarOpen}
+						/>
 						<DrawerClose asChild>
 							<Button variant="outline" className="w-full">
 								Cancelar
@@ -64,9 +82,10 @@ const DrawerDialogPurchaseForm = () => {
 	}
 
 	return (
-		<AlertDialog>
+		<AlertDialog open={isAlertDialogOpen} onOpenChange={setIsAlertDialogOpen}>
 			<AlertDialogTrigger asChild>
 				<SidebarMenuButton
+					onClick={() => setIsAlertDialogOpen(true)}
 					tooltip="Cadastrar compra"
 					className="text-primary-foreground hover:text-primary-foreground active:text-primary-foreground min-w-8 bg-gray-800 duration-200 ease-linear hover:bg-gray-700 active:bg-gray-800"
 				>
@@ -82,7 +101,7 @@ const DrawerDialogPurchaseForm = () => {
 					</AlertDialogDescription>
 				</AlertDialogHeader>
 
-				<CreatePurchaseForm />
+				<CreatePurchaseForm setIsAlertDialogOpen={setIsAlertDialogOpen} />
 				<AlertDialogFooter>
 					<AlertDialogCancel className="w-full">Cancelar</AlertDialogCancel>
 				</AlertDialogFooter>

@@ -34,7 +34,17 @@ import {
 	createPurchaseSchema,
 } from '../../schemas/purchase-schema';
 
-const CreatePurchaseForm = () => {
+interface CreatePurchaseFormProps {
+	setIsDrawerOpen?: (isOpen: boolean) => void;
+	setIsAlertDialogOpen?: (isOpen: boolean) => void;
+	setIsSidebarOpen?: (isOpen: boolean) => void;
+}
+
+const CreatePurchaseForm = ({
+	setIsDrawerOpen,
+	setIsAlertDialogOpen,
+	setIsSidebarOpen,
+}: CreatePurchaseFormProps) => {
 	const [isPending, startTransition] = useTransition();
 	const router = useRouter();
 
@@ -47,25 +57,30 @@ const CreatePurchaseForm = () => {
 		},
 	});
 
-	const handleSubmit = form.handleSubmit(async (data: CreatePurchaseSchema) => {
-		startTransition(async () => {
-			try {
-				const response = await createPurchaseAction(data);
-				const purchaseId = response.id;
+	const handleCreatePurchase = form.handleSubmit(
+		async (data: CreatePurchaseSchema) => {
+			startTransition(async () => {
+				try {
+					const response = await createPurchaseAction(data);
 
-				if (response.success) {
-					router.push(`{${AppRoutes.DASHBOARD_NEW_PURCHASE}/${purchaseId}}`);
-					form.reset();
+					if (response.success && response.id) {
+						setIsDrawerOpen?.(false);
+						setIsAlertDialogOpen?.(false);
+						setIsSidebarOpen?.(false);
+						form.reset();
+
+						router.push(`${AppRoutes.DASHBOARD_NEW_PURCHASE}/${response.id}`);
+					}
+				} catch (error) {
+					console.error(error);
 				}
-			} catch (error) {
-				console.error(error);
-			}
-		});
-	});
+			});
+		},
+	);
 
 	return (
 		<Form {...form}>
-			<form onSubmit={handleSubmit} className="flex flex-col gap-6">
+			<form onSubmit={handleCreatePurchase} className="flex flex-col gap-6">
 				<FormField
 					control={form.control}
 					name="supermarket"

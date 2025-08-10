@@ -19,4 +19,18 @@ export const stringUtils = {
 			.join('')
 			.toUpperCase()
 			.slice(0, 2),
+
+	formatDateToBRL: (value: Date) => {
+		return value.toLocaleDateString('pt-BR', {
+			dateStyle: 'medium',
+		});
+	},
+
+	formatCurrency: (value: number, locale = 'pt-BR'): string => {
+		return value.toLocaleString(locale, {
+			style: 'currency',
+			currency: 'BRL',
+			minimumFractionDigits: 2,
+		});
+	},
 } as const;

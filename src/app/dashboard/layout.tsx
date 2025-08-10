@@ -1,10 +1,10 @@
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 
+import { getUserByEmail } from '@/actions/user-actions';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { AppRoutes } from '@/enums/app-routes';
 import { auth } from '@/lib/auth';
-import { prisma } from '@/lib/client';
 
 import AppSidebar from './components/sidebar/app-sidebar';
 
@@ -16,24 +16,19 @@ const DashboardLayout = async ({ children }: DashboardLayoutProps) => {
 	const session = await auth.api.getSession({
 		headers: await headers(),
 	});
-
 	if (!session?.user) redirect(AppRoutes.SIGN_IN);
 
-	const user = await prisma.user.findUnique({
-		where: { email: session.user.email },
-		select: { name: true, image: true, email: true },
-	});
-
+	const user = await getUserByEmail(session.user.email);
 	if (!user) redirect(AppRoutes.SIGN_IN);
 
 	return (
 		<SidebarProvider>
 			<AppSidebar user={user} />
-			<main className="w-full px-4 py-2">
-				<div className="flex flex-1 flex-col">
-					<div className="@container/main flex flex-1 flex-col gap-2">
+			<main className="flex flex-1 flex-col px-4">
+				<div className="@container/main flex flex-1 flex-col gap-2">
+					<div className="flex flex-col gap-2 py-4 md:gap-4 md:py-6">
 						<SidebarTrigger />
-						{/* <DashboardHeader /> */}
+
 						{children}
 					</div>
 				</div>

@@ -10,8 +10,6 @@ export const stringUtils = {
 
 	normalize: (value: string): string => value.trim().replace(/\s+/g, ' '),
 
-	getFirstLetter: (value: string): string => value.charAt(0),
-
 	getFirstLettersUpperCase: (value: string): string =>
 		value
 			.split(' ')

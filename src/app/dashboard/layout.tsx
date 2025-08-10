@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { AppRoutes } from '@/enums/app-routes';
 import { auth } from '@/lib/auth';
+import { prisma } from '@/lib/client';
 
 import AppSidebar from './components/sidebar/app-sidebar';
 
@@ -18,9 +19,16 @@ const DashboardLayout = async ({ children }: DashboardLayoutProps) => {
 
 	if (!session?.user) redirect(AppRoutes.SIGN_IN);
 
+	const user = await prisma.user.findUnique({
+		where: { email: session.user.email },
+		select: { name: true, image: true, email: true },
+	});
+
+	if (!user) redirect(AppRoutes.SIGN_IN);
+
 	return (
 		<SidebarProvider>
-			<AppSidebar />
+			<AppSidebar user={user} />
 			<main className="w-full px-4 py-2">
 				<div className="flex flex-1 flex-col">
 					<div className="@container/main flex flex-1 flex-col gap-2">

@@ -1,11 +1,13 @@
 'use client';
 
+import { User } from 'generated/prisma';
 import { ChartNoAxesCombined } from 'lucide-react';
 import Link from 'next/link';
 
 import {
 	Sidebar,
 	SidebarContent,
+	SidebarFooter,
 	SidebarHeader,
 	SidebarMenu,
 	SidebarMenuButton,
@@ -16,10 +18,13 @@ import { COLORS } from '@/enums/colors';
 
 import { sidebarLinks } from '../../data/sidebar-links';
 import NavMain from './nav-main';
+import NavUser from './nav-user';
 
-type AppSidebarProps = React.ComponentProps<typeof Sidebar>;
+type AppSidebarProps = {
+	user: Pick<User, 'name' | 'email' | 'image'>;
+} & React.ComponentProps<typeof Sidebar>;
 
-const AppSidebar = ({ ...props }: AppSidebarProps) => {
+const AppSidebar = ({ user, ...props }: AppSidebarProps) => {
 	return (
 		<Sidebar {...props} collapsible="icon" variant="floating">
 			<SidebarHeader>
@@ -44,6 +49,9 @@ const AppSidebar = ({ ...props }: AppSidebarProps) => {
 			<SidebarContent>
 				<NavMain items={sidebarLinks.navMain} />
 			</SidebarContent>
+			<SidebarFooter>
+				<NavUser user={user} />
+			</SidebarFooter>
 		</Sidebar>
 	);
 };

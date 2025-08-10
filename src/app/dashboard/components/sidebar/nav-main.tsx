@@ -1,6 +1,6 @@
 'use client';
 
-import { LucideIcon, Plus } from 'lucide-react';
+import { LucideIcon } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -12,6 +12,8 @@ import {
 	SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { cn } from '@/lib/utils';
+
+import DrawerDialogPurchaseForm from './drawer-dialog-purchase-form';
 
 export interface NavMainProps {
 	items: {
@@ -29,13 +31,7 @@ const NavMain = ({ items }: NavMainProps) => {
 			<SidebarGroupContent className="flex flex-col gap-6">
 				<SidebarMenu>
 					<SidebarMenuItem className="flex items-center gap-2">
-						<SidebarMenuButton
-							tooltip="Cadastrar compra"
-							className="text-primary-foreground hover:text-primary-foreground active:text-primary-foreground min-w-8 bg-gray-800 duration-200 ease-linear hover:bg-gray-700 active:bg-gray-800"
-						>
-							<Plus />
-							<span>Cadastrar compra</span>
-						</SidebarMenuButton>
+						<DrawerDialogPurchaseForm />
 					</SidebarMenuItem>
 				</SidebarMenu>
 				<SidebarMenu className="flex flex-col gap-4">

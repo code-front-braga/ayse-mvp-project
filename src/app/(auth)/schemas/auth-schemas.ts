@@ -21,7 +21,7 @@ export const signInSchema = z.object({
 	password: z.string().min(1, ZodErrors.PASSWORD_IS_REQUIRED),
 });
 
-export type SignInFormData = z.infer<typeof signInSchema>;
+export type SignInFormSchema = z.infer<typeof signInSchema>;
 
 export const signUpSchema = z
 	.object({
@@ -51,4 +51,4 @@ export const signUpSchema = z
 		path: ['confirmPassword'],
 	});
 
-export type SignUpFormData = z.infer<typeof signUpSchema>;
+export type SignUpFormSchema = z.infer<typeof signUpSchema>;

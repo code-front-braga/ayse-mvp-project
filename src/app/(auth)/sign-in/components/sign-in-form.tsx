@@ -19,17 +19,17 @@ import { Input } from '@/components/ui/input';
 import { AppRoutes } from '@/enums/app-routes';
 import { authClient } from '@/lib/auth-client';
 
+import { SubmitButton } from '../../../components/shared/submit-button';
 import { AuthLink } from '../../components/auth-link';
 import { PasswordField } from '../../components/password-field';
-import { SubmitButton } from '../../../components/shared/submit-button';
-import { SignInFormData, signInSchema } from '../../schemas/auth-schemas';
+import { SignInFormSchema, signInSchema } from '../../schemas/auth-schemas';
 
 export const SignInForm = () => {
 	const [isPending, startTransition] = useTransition();
 
 	const router = useRouter();
 
-	const form = useForm<SignInFormData>({
+	const form = useForm<SignInFormSchema>({
 		resolver: zodResolver(signInSchema),
 		defaultValues: {
 			email: '',
@@ -37,7 +37,7 @@ export const SignInForm = () => {
 		},
 	});
 
-	const handleSignIn = form.handleSubmit(async (data: SignInFormData) => {
+	const handleSignIn = form.handleSubmit(async (data: SignInFormSchema) => {
 		startTransition(async () => {
 			await authClient.signIn.email({
 				email: data.email,

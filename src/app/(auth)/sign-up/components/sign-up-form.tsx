@@ -18,18 +18,18 @@ import { Input } from '@/components/ui/input';
 import { AppRoutes } from '@/enums/app-routes';
 import { authClient } from '@/lib/auth-client';
 
+import { SubmitButton } from '../../../components/shared/submit-button';
 import { AuthLink } from '../../components/auth-link';
 import { PasswordField } from '../../components/password-field';
 import { PasswordStrengthIndicator } from '../../components/password-strength-indicator';
-import { SubmitButton } from '../../../components/shared/submit-button';
-import { SignUpFormData, signUpSchema } from '../../schemas/auth-schemas';
+import { SignUpFormSchema, signUpSchema } from '../../schemas/auth-schemas';
 
 export const SignUpForm = () => {
 	const [isPending, startTransition] = useTransition();
 
 	const router = useRouter();
 
-	const form = useForm<SignUpFormData>({
+	const form = useForm<SignUpFormSchema>({
 		resolver: zodResolver(signUpSchema),
 		defaultValues: {
 			name: '',
@@ -39,7 +39,7 @@ export const SignUpForm = () => {
 		},
 	});
 
-	const handleSignUp = form.handleSubmit(async (data: SignUpFormData) => {
+	const handleSignUp = form.handleSubmit(async (data: SignUpFormSchema) => {
 		startTransition(async () => {
 			await authClient.signUp.email({
 				name: data.name,

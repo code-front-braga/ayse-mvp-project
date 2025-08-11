@@ -31,4 +31,10 @@ export const stringUtils = {
 			minimumFractionDigits: 2,
 		});
 	},
+
+	padWithZero: (value: number | string, length: number = 2): string => {
+		const numValue = Number(value);
+		if (numValue === 0) return '0';
+		return String(value).padStart(length, '0');
+	},
 } as const;

@@ -1,11 +1,34 @@
-interface NewPurchaseProps {
+import { Separator } from '@/components/ui/separator';
+import { prisma } from '@/lib/client';
+
+import NewPurchaseHeader from './components/new-purchase-header';
+import { PurchaseSummary } from './components/purchase-summary';
+
+interface NewPurchasePageProps {
 	params: Promise<{ id: string }>;
 }
 
-const NewPurchase = async ({ params }: NewPurchaseProps) => {
+export default async function NewPurchasePage({
+	params,
+}: NewPurchasePageProps) {
 	const { id } = await params;
 
-	return <h1>New Purchase {id}</h1>;
-};
+	const purchase = await prisma.purchase.findUnique({
+		where: { id },
+		include: {
+			products: true,
+		},
+	});
 
-export default NewPurchase;
+	if (!purchase) {
+		return <div>Compra não encontrada</div>;
+	}
+
+	return (
+		<>
+			<NewPurchaseHeader purchase={purchase} />
+			<Separator />
+			<PurchaseSummary purchase={purchase} />
+		</>
+	);
+}

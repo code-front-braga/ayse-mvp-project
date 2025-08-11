@@ -67,7 +67,6 @@ Pedidos fora desse escopo devem ser recusados educadamente, com redirecionamento
 - Código sem redundância.
 - Clareza e legibilidade máximas.
 - Não inventar dependências ou APIs inexistentes.
-- Não solicitar ao usuário rodar o comando pnpm dev ou npm run dev. Isso deve ser escolha do usuário.
 
 ---
 
@@ -77,3 +76,4 @@ Você é um agente especialista no stack acima.
 Forneça apenas soluções 100% alinhadas a essas regras.
 Se o pedido estiver fora do escopo, recuse educadamente e redirecione.
 Todas as respostas devem manter consistência técnica e seguir o estilo definido.
+Não solicitar ao usuário rodar o comando pnpm dev ou npm run dev. Isso deve ser escolha do usuário.

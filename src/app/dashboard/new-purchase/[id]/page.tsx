@@ -1,7 +1,6 @@
 import { Separator } from '@/components/ui/separator';
 import { prisma } from '@/lib/client';
 
-import AddProductForm from './components/add-product-form';
 import NewPurchaseHeader from './components/new-purchase-header';
 import { PurchaseSummary } from './components/purchase-summary';
 
@@ -26,12 +25,10 @@ export default async function NewPurchasePage({
 	}
 
 	return (
-		<>
+		<div className="space-y-6">
 			<NewPurchaseHeader purchase={purchase} />
 			<Separator />
 			<PurchaseSummary purchase={purchase} />
-
-			<AddProductForm />
-		</>
+		</div>
 	);
 }

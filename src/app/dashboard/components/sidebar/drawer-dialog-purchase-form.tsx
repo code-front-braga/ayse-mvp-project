@@ -26,23 +26,22 @@ import {
 import { SidebarMenuButton } from '@/components/ui/sidebar';
 import { useIsMobile } from '@/hooks/use-mobile';
 
+import { usePurchaseFormModal } from '../../contexts/purchase-form-modal-context';
 import CreatePurchaseForm from './create-purchase-form';
 
 interface DrawerDialogPurchaseFormProps {
-	isDrawerOpen: boolean;
-	isAlertDialogOpen: boolean;
-	setIsDrawerOpen: (isOpen: boolean) => void;
-	setIsAlertDialogOpen: (isOpen: boolean) => void;
 	setIsSidebarOpen?: (isOpen: boolean) => void;
 }
 
 const DrawerDialogPurchaseForm = ({
-	isDrawerOpen,
-	setIsDrawerOpen,
-	isAlertDialogOpen,
 	setIsSidebarOpen,
-	setIsAlertDialogOpen,
 }: DrawerDialogPurchaseFormProps) => {
+	const {
+		isDrawerOpen,
+		isAlertDialogOpen,
+		setIsDrawerOpen,
+		setIsAlertDialogOpen,
+	} = usePurchaseFormModal();
 	const isMobile = useIsMobile();
 
 	if (isMobile) {
@@ -66,10 +65,7 @@ const DrawerDialogPurchaseForm = ({
 						</DrawerDescription>
 					</DrawerHeader>
 					<DrawerFooter>
-						<CreatePurchaseForm
-							setIsDrawerOpen={setIsDrawerOpen}
-							setIsSidebarOpen={setIsSidebarOpen}
-						/>
+						<CreatePurchaseForm setIsSidebarOpen={setIsSidebarOpen} />
 						<DrawerClose asChild>
 							<Button variant="outline" className="w-full">
 								Cancelar
@@ -101,7 +97,7 @@ const DrawerDialogPurchaseForm = ({
 					</AlertDialogDescription>
 				</AlertDialogHeader>
 
-				<CreatePurchaseForm setIsAlertDialogOpen={setIsAlertDialogOpen} />
+				<CreatePurchaseForm setIsSidebarOpen={setIsSidebarOpen} />
 				<AlertDialogFooter>
 					<AlertDialogCancel className="w-full">Cancelar</AlertDialogCancel>
 				</AlertDialogFooter>

@@ -29,24 +29,22 @@ import { AppRoutes } from '@/enums/app-routes';
 import { cn } from '@/lib/utils';
 
 import { createPurchaseAction } from '../../actions/purchase-actions';
+import { usePurchaseFormModal } from '../../contexts/purchase-form-modal-context';
 import {
 	CreatePurchaseSchema,
 	createPurchaseSchema,
 } from '../../schemas/purchase-schema';
 
 interface CreatePurchaseFormProps {
-	setIsDrawerOpen?: (isOpen: boolean) => void;
-	setIsAlertDialogOpen?: (isOpen: boolean) => void;
 	setIsSidebarOpen?: (isOpen: boolean) => void;
 }
 
 const CreatePurchaseForm = ({
-	setIsDrawerOpen,
-	setIsAlertDialogOpen,
 	setIsSidebarOpen,
 }: CreatePurchaseFormProps) => {
 	const [isPending, startTransition] = useTransition();
 	const router = useRouter();
+	const { closeAllModals } = usePurchaseFormModal();
 
 	const form = useForm<CreatePurchaseSchema>({
 		resolver: zodResolver(createPurchaseSchema),
@@ -64,8 +62,7 @@ const CreatePurchaseForm = ({
 					const response = await createPurchaseAction(data);
 
 					if (response.success && response.id) {
-						setIsDrawerOpen?.(false);
-						setIsAlertDialogOpen?.(false);
+						closeAllModals();
 						setIsSidebarOpen?.(false);
 						form.reset();
 

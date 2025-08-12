@@ -1,9 +1,14 @@
+'use client';
+
 import { Prisma } from 'generated/prisma';
-import { PackageCheck, Plus, X } from 'lucide-react';
+import { PackageCheck, X } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import { useSidebar } from '@/components/ui/sidebar';
 import { stringUtils } from '@/helpers/string-utils';
+
+import DrawerSheetAddProductForm from './drawer-sheet-add-product-form';
 
 interface PurchaseSummaryProps {
 	purchase: Prisma.PurchaseGetPayload<{
@@ -13,10 +18,9 @@ interface PurchaseSummaryProps {
 }
 
 export function PurchaseSummary({ purchase }: PurchaseSummaryProps) {
-	const totalValue = purchase.products.reduce(
-		(sum, product) => sum + product.price,
-		0,
-	);
+	const { setOpenMobile } = useSidebar();
+
+	const totalValue = purchase.total;
 	const itemsCount = purchase.products.length;
 
 	return (
@@ -45,10 +49,7 @@ export function PurchaseSummary({ purchase }: PurchaseSummaryProps) {
 
 			{/* Right Side */}
 			<div className="mt-4 flex w-full flex-col gap-2 md:mt-0 md:w-auto md:flex-row">
-				<Button variant="outline" className="w-full md:w-auto">
-					<Plus />
-					Adicionar Produto
-				</Button>
+				<DrawerSheetAddProductForm setIsSidebarOpen={setOpenMobile} />
 				<Button className="w-full bg-emerald-500 hover:bg-emerald-400 md:w-auto">
 					<PackageCheck />
 					Finalizar Compra

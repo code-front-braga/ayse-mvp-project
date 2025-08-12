@@ -3,7 +3,6 @@
 import { LucideIcon } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
 
 import {
 	SidebarGroup,
@@ -26,9 +25,6 @@ export interface NavMainProps {
 }
 
 const NavMain = ({ items }: NavMainProps) => {
-	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-	const [isAlertDialogOpen, setIsAlertDialogOpen] = useState(false);
-
 	const { setOpenMobile } = useSidebar();
 
 	const pathname = usePathname();
@@ -38,13 +34,7 @@ const NavMain = ({ items }: NavMainProps) => {
 			<SidebarGroupContent className="flex flex-col gap-6">
 				<SidebarMenu>
 					<SidebarMenuItem className="flex items-center gap-2">
-						<DrawerDialogPurchaseForm
-							isDrawerOpen={isDrawerOpen}
-							setIsDrawerOpen={setIsDrawerOpen}
-							isAlertDialogOpen={isAlertDialogOpen}
-							setIsAlertDialogOpen={setIsAlertDialogOpen}
-							setIsSidebarOpen={setOpenMobile}
-						/>
+						<DrawerDialogPurchaseForm setIsSidebarOpen={setOpenMobile} />
 					</SidebarMenuItem>
 				</SidebarMenu>
 				<SidebarMenu className="flex flex-col gap-4">

@@ -21,7 +21,6 @@ const NewPurchasePage = async ({ params }: NewPurchasePageProps) => {
 
 	const purchase = await prisma.purchase.findFirst({
 		where: { id: purchaseId, userId: session.user.id },
-
 		include: { products: true },
 	});
 

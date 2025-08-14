@@ -50,6 +50,7 @@ Pedidos fora desse escopo SEMPRE devem ser recusados educadamente, com redirecio
 - SEMPRE que analisar meu código, verifique se há repetições de estilos significativas. Se houver, CRIE UM COMPONENTE REUTILIZÁVEL.
 - SEMPRE que analisar meu código, verifique se há repetições de componentes. Se houver, CRIE UM COMPONENTE REUTILIZÁVEL.
 - SEMPRE que houver redundância de código, verifique se há formas de reutilizar o código. Se houver, CRIE UM COMPONENTE REUTILIZÁVEL.
+- SEMPRE verifique a possibilidade de usar hooks como useMemo, useCallback, useContext e o React.memo.
 
 **Padrões Técnicos Obrigatórios**
 

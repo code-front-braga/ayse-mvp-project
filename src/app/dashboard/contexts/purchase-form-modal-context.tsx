@@ -16,22 +16,24 @@ interface PurchaseFormModalProviderProps {
 	children: ReactNode;
 }
 
+import { useCallback, useMemo } from 'react';
+
 export function PurchaseFormModalProvider({ children }: PurchaseFormModalProviderProps) {
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 	const [isAlertDialogOpen, setIsAlertDialogOpen] = useState(false);
 
-	const closeAllModals = () => {
+	const closeAllModals = useCallback(() => {
 		setIsDrawerOpen(false);
 		setIsAlertDialogOpen(false);
-	};
+	}, []);
 
-	const value: PurchaseFormModalContextType = {
+	const value: PurchaseFormModalContextType = useMemo(() => ({
 		isDrawerOpen,
 		isAlertDialogOpen,
 		setIsDrawerOpen,
 		setIsAlertDialogOpen,
 		closeAllModals,
-	};
+	}), [isDrawerOpen, isAlertDialogOpen, closeAllModals]);
 
 	return (
 		<PurchaseFormModalContext.Provider value={value}>

@@ -2,6 +2,7 @@
 
 import { Ellipsis, PenLine, Text, Trash, TriangleAlert } from 'lucide-react';
 import { useState, useTransition } from 'react';
+import React from 'react';
 import { toast } from 'sonner';
 
 import { deleteProductAction } from '@/actions/product-actions/delete-product-action';
@@ -33,11 +34,11 @@ import { COLORS } from '@/enums/colors';
 
 import ProductForm from '../product-form';
 
-const ProductRowActions = ({
-	product,
-}: {
+export type ProductRowActionsProps = {
 	product: EditProductActionProps;
-}) => {
+};
+
+const ProductRowActions = React.memo(({ product }: ProductRowActionsProps) => {
 	const [isUpdatePending, startUpdateTransition] = useTransition();
 	const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 	const [showEditSheet, setShowEditSheet] = useState(false);
@@ -160,6 +161,6 @@ const ProductRowActions = ({
 			</Sheet>
 		</>
 	);
-};
+});
 
 export default ProductRowActions;

@@ -21,22 +21,31 @@ export const editProductAction = async (data: EditProductActionProps) => {
 	}
 
 	try {
-		const purchase = await prisma.purchase.findFirst({
-			where: { userId: session.user.id },
+		// ✅ Buscar o produto primeiro para obter o purchaseId
+		const productToEdit = await prisma.product.findUnique({
+			where: { id: data.id },
+			select: { purchaseId: true },
 		});
+
+		if (!productToEdit) {
+			return { error: 'Produto não encontrado.' };
+		}
+
+		// ✅ Buscar a compra específica que contém o produto
+		const purchase = await prisma.purchase.findFirst({
+			where: {
+				id: productToEdit.purchaseId as string,
+				userId: session.user.id,
+			},
+		});
+
 		if (!purchase) {
 			return { error: 'Compra não encontrada.' };
 		}
 
-		const product = await prisma.product.findFirst({
-			where: { id: data.id, purchaseId: purchase?.id },
-		});
-		if (!product) {
-			return { error: 'Produto não encontrado.' };
-		}
-
+		// ✅ Agora podemos atualizar o produto com segurança
 		await prisma.product.update({
-			where: { id: product.id },
+			where: { id: data.id },
 			data: {
 				name: data.name,
 				category: data.category,

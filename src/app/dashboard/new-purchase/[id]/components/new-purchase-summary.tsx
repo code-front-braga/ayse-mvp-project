@@ -1,12 +1,13 @@
-import { Purchase } from 'generated/prisma';
+import { Prisma } from 'generated/prisma';
 
 import { stringUtils } from '@/helpers/string-utils';
 
+import AlertDialogRegisterPurchase from './alert-dialog-register-purchase';
 import SheetDrawerAddProduct from './sheet-drawer-add-product';
 import { ProductType } from './table/products-table-header';
 
 interface NewPurchaseSummaryProps {
-	purchase: Purchase;
+	purchase: Prisma.PurchaseGetPayload<{ include: { products: true } }>;
 	products: ProductType[];
 }
 
@@ -40,6 +41,10 @@ const NewPurchaseSummary = ({
 
 				<div className="flex w-full flex-col items-center gap-3 md:w-fit md:flex-row">
 					<SheetDrawerAddProduct />
+					<AlertDialogRegisterPurchase
+						purchase={purchase}
+						products={products}
+					/>
 				</div>
 			</div>
 		</>

@@ -29,7 +29,7 @@ const CustomTableBody = <TData,>({
 				<TableRow>
 					<TableCell
 						colSpan={columns.length}
-						className="text-muted-foreground text-center"
+						className="text-muted-foreground text-start md:text-center"
 					>
 						{emptyMessage}
 					</TableCell>

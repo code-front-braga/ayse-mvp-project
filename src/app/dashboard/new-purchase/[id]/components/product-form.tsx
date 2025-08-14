@@ -3,6 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useParams } from 'next/navigation';
 import { useTransition } from 'react';
+import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { NumericFormat } from 'react-number-format';
 import { toast } from 'sonner';
@@ -65,30 +66,33 @@ const ProductForm = ({
 		},
 	});
 
-	const handleSubmit = form.handleSubmit(async (data: ProductSchema) => {
-		startTransition(async () => {
-			try {
-				const response =
-					actionMode === 'add'
-						? await addProductAction({ ...data, purchaseId })
-						: await editProductAction({ ...data, id: productId! });
+	const handleSubmit = useCallback(
+		form.handleSubmit(async (data: ProductSchema) => {
+			startTransition(async () => {
+				try {
+					const response =
+						actionMode === 'add'
+							? await addProductAction({ ...data, purchaseId })
+							: await editProductAction({ ...data, id: productId! });
 
-				if (response.error) {
-					toast.error(response.error);
-					return;
-				}
+					if (response.error) {
+						toast.error(response.error);
+						return;
+					}
 
-				if (response.success) {
-					toast.success(response.success);
-					form.reset();
-					closeAllModals();
-					onSuccess?.();
+					if (response.success) {
+						toast.success(response.success);
+						form.reset();
+						closeAllModals();
+						onSuccess?.();
+					}
+				} catch (error) {
+					console.error(error);
 				}
-			} catch (error) {
-				console.error(error);
-			}
-		});
-	});
+			});
+		}),
+		[form, startTransition, purchaseId, productId, closeAllModals],
+	);
 
 	return (
 		<Form {...form}>

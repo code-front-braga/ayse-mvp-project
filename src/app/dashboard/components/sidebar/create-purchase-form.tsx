@@ -6,6 +6,7 @@ import { ptBR } from 'date-fns/locale';
 import { CalendarIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useTransition } from 'react';
+import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -54,8 +55,8 @@ const CreatePurchaseForm = ({ setIsSidebarOpen }: CreatePurchaseFormProps) => {
 		},
 	});
 
-	const handleCreatePurchase = form.handleSubmit(
-		async (data: CreatePurchaseSchema) => {
+	const handleCreatePurchase = useCallback(
+		form.handleSubmit(async (data: CreatePurchaseSchema) => {
 			startTransition(async () => {
 				const response = await createPurchaseAction(data);
 
@@ -74,7 +75,8 @@ const CreatePurchaseForm = ({ setIsSidebarOpen }: CreatePurchaseFormProps) => {
 					);
 				}
 			});
-		},
+		}),
+		[startTransition, closeAllModals, setIsSidebarOpen, form, router],
 	);
 
 	return (

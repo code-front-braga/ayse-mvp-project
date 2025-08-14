@@ -27,7 +27,7 @@ export const addProductAction = async (data: AddProductActionProps) => {
 		if (!purchase) return { error: 'Compra não encontrada.' };
 
 		const product = await prisma.product.findFirst({
-			where: { purchaseId: purchase.id, name: data.name },
+			where: { purchaseId: data.purchaseId, name: data.name },
 		});
 		if (product) return { error: 'Produto já existe na compra.' };
 
@@ -35,12 +35,12 @@ export const addProductAction = async (data: AddProductActionProps) => {
 
 		await prisma.product.create({
 			data: {
-				purchaseId: purchase.id,
 				name: data.name,
 				price: data.price,
 				quantity: data.quantity,
 				category: data.category,
 				total: total,
+				purchaseId: purchase.id,
 			},
 		});
 

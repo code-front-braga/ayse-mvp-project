@@ -17,20 +17,23 @@ export const deleteProductAction = async (data: DeleteProductSchema) => {
 	}
 
 	try {
-		const product = await prisma.product.findFirst({
-			where: {
-				id: data.id,
-				Purchase: { userId: session.user.id },
-			},
-			include: { Purchase: true },
+		const productToDelete = await prisma.product.findFirst({
+			where: { id: data.id },
+			select: { purchaseId: true },
 		});
 
-		if (!product) {
+		if (!productToDelete) {
 			return { error: 'Produto não encontrado.' };
 		}
 
-		const purchaseId = product.purchaseId;
-		if (!purchaseId) {
+		const purchase = await prisma.purchase.findFirst({
+			where: {
+				id: productToDelete.purchaseId as string,
+				userId: session.user.id,
+			},
+		});
+
+		if (!purchase) {
 			return { error: 'Compra não encontrada.' };
 		}
 
@@ -38,9 +41,9 @@ export const deleteProductAction = async (data: DeleteProductSchema) => {
 			where: { id: data.id },
 		});
 
-		await recalculatePurchaseTotalAction(purchaseId);
+		await recalculatePurchaseTotalAction(purchase?.id);
 
-		revalidatePath(`${AppRoutes.DASHBOARD_NEW_PURCHASE}/${purchaseId}`);
+		revalidatePath(`${AppRoutes.DASHBOARD_NEW_PURCHASE}/${purchase?.id}`);
 
 		return { success: 'Produto deletado com sucesso!' };
 	} catch (error) {

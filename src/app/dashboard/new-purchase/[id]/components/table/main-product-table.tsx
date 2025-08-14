@@ -12,7 +12,7 @@ import {
 	useReactTable,
 	VisibilityState,
 } from '@tanstack/react-table';
-import { Purchase } from 'generated/prisma';
+import { Prisma } from 'generated/prisma';
 import { useCallback, useState } from 'react';
 
 import { deleteProductAction } from '@/actions/product-actions/delete-product-action';
@@ -26,7 +26,7 @@ import NewPurchaseSummary from '../new-purchase-summary';
 import ProductsTableHeader, { ProductType } from './products-table-header';
 
 interface MainProductTableProps {
-	purchase: Purchase;
+	purchase: Prisma.PurchaseGetPayload<{ include: { products: true } }>;
 	products: ProductType[];
 }
 
@@ -90,7 +90,7 @@ const MainProductTable = ({ purchase, products }: MainProductTableProps) => {
 				onDeleteRows={handleDeleteRows}
 			/>
 
-			<Card className="bg-border flex flex-1 flex-col shadow-md">
+			<Card className="bg-sidebar flex flex-1 flex-col shadow-md">
 				<div className="flex flex-1 flex-col p-4">
 					<div className="flex min-h-0 flex-1 flex-col">
 						<div className="flex-1 overflow-auto">

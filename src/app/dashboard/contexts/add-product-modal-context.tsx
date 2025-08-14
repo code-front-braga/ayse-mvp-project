@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, ReactNode, useContext, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 
 interface AddProductModalContextType {
 	isDrawerOpen: boolean;
@@ -24,18 +25,21 @@ export function AddProductModalProvider({
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 	const [isSheetOpen, setIsSheetOpen] = useState(false);
 
-	const closeAllModals = () => {
+	const closeAllModals = useCallback(() => {
 		setIsDrawerOpen(false);
 		setIsSheetOpen(false);
-	};
+	}, []);
 
-	const value: AddProductModalContextType = {
-		isDrawerOpen,
-		isSheetOpen,
-		setIsDrawerOpen,
-		setIsSheetOpen,
-		closeAllModals,
-	};
+	const value: AddProductModalContextType = useMemo(
+		() => ({
+			isDrawerOpen,
+			isSheetOpen,
+			setIsDrawerOpen,
+			setIsSheetOpen,
+			closeAllModals,
+		}),
+		[isDrawerOpen, isSheetOpen, closeAllModals],
+	);
 
 	return (
 		<AddProductModalContext.Provider value={value}>

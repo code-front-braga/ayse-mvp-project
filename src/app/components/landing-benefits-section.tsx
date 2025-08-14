@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { AppRoutes } from '@/enums/app-routes';
 
-import { benefits } from '../data/benefits';
+import { benefits } from '../(apresentation)/data/benefits';
 import BenefitItem from './benefit-item';
 
 const LandingBenefitsSection = () => {

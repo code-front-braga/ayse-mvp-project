@@ -1,4 +1,4 @@
-import { features } from '../data/features';
+import { features } from '../(apresentation)/data/features';
 import FeatureCard from './feature-card';
 
 const LandingFeaturesSection = () => {

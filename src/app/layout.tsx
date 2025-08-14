@@ -38,7 +38,7 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
 	return (
-		<html lang="pt-BR" suppressHydrationWarning>
+		<html lang="pt-BR">
 			<body
 				className={`${fonts.inter.className} ${fonts.alumni.className} ${fonts.zain.className} antialiased`}
 			>

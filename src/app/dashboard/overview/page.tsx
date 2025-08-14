@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
-import Cards from '../components/content/cards';
-import DashboardHeader from '../components/content/dashboard-header';
+import Cards from './components/cards';
+import DashboardHeader from '../components/shared/dashboard-header';
 
 export const metadata: Metadata = {
 	title: 'Visão Geral',

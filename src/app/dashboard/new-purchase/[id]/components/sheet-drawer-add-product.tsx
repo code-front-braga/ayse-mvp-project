@@ -2,6 +2,7 @@
 
 import { Plus } from 'lucide-react';
 
+import { useAddProductModal } from '@/app/dashboard/contexts/add-product-modal-context';
 import { Button } from '@/components/ui/button';
 import {
 	Drawer,
@@ -14,45 +15,38 @@ import {
 import {
 	Sheet,
 	SheetContent,
-	SheetDescription,
 	SheetHeader,
 	SheetTitle,
 	SheetTrigger,
 } from '@/components/ui/sheet';
 import { useIsMobile } from '@/hooks/use-mobile';
 
-import { useAddProductModal } from '../../../contexts/add-product-modal-context';
-import AddProductForm from './add-product-form';
+import ProductForm from './product-form';
 
-interface DrawerDialogPurchaseFormProps {
-	setIsSidebarOpen?: (isOpen: boolean) => void;
-}
-
-const DrawerSheetAddProductForm = ({
-	setIsSidebarOpen,
-}: DrawerDialogPurchaseFormProps) => {
-	const { isDrawerOpen, isSheetOpen, setIsDrawerOpen, setIsSheetOpen } =
-		useAddProductModal();
+const SheetDrawerAddProduct = () => {
 	const isMobile = useIsMobile();
+	const { isDrawerOpen, setIsDrawerOpen, isSheetOpen, setIsSheetOpen } =
+		useAddProductModal();
 
 	if (isMobile) {
 		return (
 			<Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
-				<DrawerTrigger asChild>
+				<DrawerTrigger asChild className="w-full">
 					<Button onClick={() => setIsDrawerOpen(true)} variant="outline">
 						<Plus />
-						<span>Adicionar produto</span>
+						Adicionar Produto
 					</Button>
 				</DrawerTrigger>
-				<DrawerContent>
+				<DrawerContent className="min-h-screen">
 					<DrawerHeader>
 						<DrawerTitle>Adicionar Produto</DrawerTitle>
+
 						<DrawerDescription>
-							Adicione um novo produto à compra.
+							Adicione um produto à sua compra.
 						</DrawerDescription>
 					</DrawerHeader>
-					<div className="h-full px-4">
-						<AddProductForm setIsSidebarOpen={setIsSidebarOpen} />
+					<div className="h-screen px-4 pb-4">
+						<ProductForm actionMode="add" />
 					</div>
 				</DrawerContent>
 			</Drawer>
@@ -64,22 +58,20 @@ const DrawerSheetAddProductForm = ({
 			<SheetTrigger asChild>
 				<Button onClick={() => setIsSheetOpen(true)} variant="outline">
 					<Plus />
-					<span>Adicionar produto</span>
+					Adicionar Produto
 				</Button>
 			</SheetTrigger>
 			<SheetContent>
 				<SheetHeader>
 					<SheetTitle>Adicionar Produto</SheetTitle>
-					<SheetDescription>
-						Adicione um novo produto à compra.
-					</SheetDescription>
 				</SheetHeader>
-				<div className="h-full px-4">
-					<AddProductForm setIsSidebarOpen={setIsSheetOpen} />
+
+				<div className="h-screen px-4 pb-4">
+					<ProductForm actionMode="add" />
 				</div>
 			</SheetContent>
 		</Sheet>
 	);
 };
 
-export default DrawerSheetAddProductForm;
+export default SheetDrawerAddProduct;

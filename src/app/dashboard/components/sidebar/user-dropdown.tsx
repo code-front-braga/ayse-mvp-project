@@ -15,7 +15,7 @@ import {
 import { SidebarMenuButton } from '@/components/ui/sidebar';
 import { AppRoutes } from '@/enums/app-routes';
 import { COLORS } from '@/enums/colors';
-import { authClient } from '@/lib/auth-client';
+import { authClient } from '@/lib/better-auth-client';
 
 import UserAvatar from './user-avatar';
 import UserInfo from './user-info';

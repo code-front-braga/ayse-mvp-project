@@ -10,15 +10,15 @@ import {
 import { COLORS } from '@/enums/colors';
 import { stringUtils } from '@/helpers/string-utils';
 
-import CardItem from './card-item';
 import CustomCardActionWithTooltip from './custom-card-action-with-tooltip';
+import CardItem from './card-item';
 
 const Cards = () => {
 	return (
 		<div className="*:data-[slot=card]:bg-background grid grid-cols-1 gap-4 *:data-[slot=card]:shadow-xs @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
 			<CardItem
 				description="Gasto Total"
-				title={stringUtils.formatCurrency(5000)}
+				title={stringUtils.formatToCurrencyBRL(5000)}
 				actionChildren={
 					<CustomCardActionWithTooltip
 						badgeNumber={250}
@@ -71,7 +71,7 @@ const Cards = () => {
 				footerChildren={
 					<>
 						<span className="text-primary/75 line-clamp-1 text-xs font-medium md:text-sm">
-							Total gasto: {stringUtils.formatCurrency(2000)}
+							Total gasto: {stringUtils.formatToCurrencyBRL(2000)}
 						</span>
 						<Tooltip>
 							<TooltipTrigger asChild>
@@ -93,7 +93,7 @@ const Cards = () => {
 
 			<CardItem
 				description="Gasto Em Julho"
-				title={stringUtils.formatCurrency(300)}
+				title={stringUtils.formatToCurrencyBRL(300)}
 				actionChildren={
 					<CustomCardActionWithTooltip
 						badgeNumber={100}

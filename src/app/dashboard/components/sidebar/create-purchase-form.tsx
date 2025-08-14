@@ -7,7 +7,9 @@ import { CalendarIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
+import { createPurchaseAction } from '@/actions/purchase-actions/create-purchase-action';
 import { SubmitButton } from '@/app/components/shared/submit-button';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
@@ -28,20 +30,17 @@ import {
 import { AppRoutes } from '@/enums/app-routes';
 import { cn } from '@/lib/utils';
 
-import { createPurchaseAction } from '../../actions/purchase-actions';
-import { usePurchaseFormModal } from '../../contexts/purchase-form-modal-context';
 import {
 	CreatePurchaseSchema,
 	createPurchaseSchema,
-} from '../../schemas/purchase-schema';
+} from '../../../../actions/purchase-actions/purchase-schema';
+import { usePurchaseFormModal } from '../../contexts/purchase-form-modal-context';
 
 interface CreatePurchaseFormProps {
 	setIsSidebarOpen?: (isOpen: boolean) => void;
 }
 
-const CreatePurchaseForm = ({
-	setIsSidebarOpen,
-}: CreatePurchaseFormProps) => {
+const CreatePurchaseForm = ({ setIsSidebarOpen }: CreatePurchaseFormProps) => {
 	const [isPending, startTransition] = useTransition();
 	const router = useRouter();
 	const { closeAllModals } = usePurchaseFormModal();
@@ -58,18 +57,21 @@ const CreatePurchaseForm = ({
 	const handleCreatePurchase = form.handleSubmit(
 		async (data: CreatePurchaseSchema) => {
 			startTransition(async () => {
-				try {
-					const response = await createPurchaseAction(data);
+				const response = await createPurchaseAction(data);
 
-					if (response.success && response.id) {
-						closeAllModals();
-						setIsSidebarOpen?.(false);
-						form.reset();
+				if (response.error) {
+					toast.error(response.error);
+					return;
+				}
 
-						router.push(`${AppRoutes.DASHBOARD_NEW_PURCHASE}/${response.id}`);
-					}
-				} catch (error) {
-					console.error(error);
+				if (response.success && response.purchaseId) {
+					toast.success('Compra criada com sucesso!');
+					closeAllModals();
+					setIsSidebarOpen?.(false);
+					form.reset();
+					router.push(
+						`${AppRoutes.DASHBOARD_NEW_PURCHASE}/${response.purchaseId}`,
+					);
 				}
 			});
 		},

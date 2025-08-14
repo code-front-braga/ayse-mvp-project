@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, ReactNode,useContext, useState } from 'react';
+import { createContext, ReactNode, useContext, useState } from 'react';
 
 interface AddProductModalContextType {
 	isDrawerOpen: boolean;
@@ -10,13 +10,17 @@ interface AddProductModalContextType {
 	closeAllModals: () => void;
 }
 
-const AddProductModalContext = createContext<AddProductModalContextType | undefined>(undefined);
+const AddProductModalContext = createContext<
+	AddProductModalContextType | undefined
+>(undefined);
 
 interface AddProductModalProviderProps {
 	children: ReactNode;
 }
 
-export function AddProductModalProvider({ children }: AddProductModalProviderProps) {
+export function AddProductModalProvider({
+	children,
+}: AddProductModalProviderProps) {
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 	const [isSheetOpen, setIsSheetOpen] = useState(false);
 
@@ -43,7 +47,9 @@ export function AddProductModalProvider({ children }: AddProductModalProviderPro
 export function useAddProductModal() {
 	const context = useContext(AddProductModalContext);
 	if (context === undefined) {
-		throw new Error('useAddProductModal must be used within a AddProductModalProvider');
+		throw new Error(
+			'useAddProductModal must be used within a AddProductModalProvider',
+		);
 	}
 	return context;
 }

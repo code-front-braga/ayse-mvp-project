@@ -2,7 +2,7 @@ import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 import { AppRoutes } from '@/enums/app-routes';
-import { auth } from '@/lib/auth';
+import { auth } from '@/lib/better-auth';
 
 interface AuthLayoutProps {
 	children: React.ReactNode;

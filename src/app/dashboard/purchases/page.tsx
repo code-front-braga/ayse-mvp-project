@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-import DashboardHeader from '../components/content/dashboard-header';
+import DashboardHeader from '../components/shared/dashboard-header';
 
 export const metadata: Metadata = {
 	title: 'Minhas Compras',

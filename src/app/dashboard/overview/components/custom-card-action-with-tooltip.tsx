@@ -20,7 +20,7 @@ const CustomCardActionWithTooltip = ({
 	return (
 		<div className="flex items-center gap-1">
 			<Badge className="rounded-sm bg-emerald-50 text-xs font-semibold text-emerald-500">
-				+ {stringUtils.formatCurrency(badgeNumber)}
+				+ {stringUtils.formatToCurrencyBRL(badgeNumber)}
 			</Badge>
 			<Tooltip>
 				<TooltipTrigger>

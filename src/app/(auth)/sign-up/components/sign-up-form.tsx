@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { AppRoutes } from '@/enums/app-routes';
-import { authClient } from '@/lib/auth-client';
+import { authClient } from '@/lib/better-auth-client';
 
 import { SubmitButton } from '../../../components/shared/submit-button';
 import { AuthLink } from '../../components/auth-link';

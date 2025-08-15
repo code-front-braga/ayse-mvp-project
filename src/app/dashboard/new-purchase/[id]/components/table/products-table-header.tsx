@@ -1,14 +1,9 @@
 import { Table } from '@tanstack/react-table';
-import { Product } from 'generated/prisma';
 
 import DeleteSelectedDialog from '@/app/dashboard/components/shared/delete-selected-dialog';
 import SearchInput from '@/app/dashboard/components/shared/search-input';
 import StatusFilterPopover from '@/app/dashboard/components/shared/status-filter-popover';
-
-export type ProductType = Pick<
-	Product,
-	'id' | 'name' | 'category' | 'price' | 'quantity' | 'description'
->;
+import { ProductType } from '@/hooks/use-optimistic-products';
 
 interface ProductsTableHeaderProps {
 	table: Table<ProductType>;

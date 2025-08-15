@@ -46,7 +46,7 @@ const CustomCardActionWithTooltip = ({
 				{stringUtils.formatToCurrencyBRL(Math.abs(badgeNumber))}
 			</Badge>
 			<Tooltip>
-				<TooltipTrigger>
+				<TooltipTrigger className='cursor-help'>
 					<CircleQuestionMark size={12} className="text-primary/70" />
 				</TooltipTrigger>
 				<TooltipContent side="left" className="shadow-lg">

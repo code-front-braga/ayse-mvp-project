@@ -19,28 +19,33 @@ import CustomTableBody from '@/app/dashboard/components/shared/custom-table-body
 import CustomTablePagination from '@/app/dashboard/components/shared/custom-table-pagination';
 import { Card } from '@/components/ui/card';
 import { Table, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { OptimisticProvider, ProductType,useOptimisticProducts } from '@/hooks/use-optimistic-products';
 
 import useProductColumns from '../../hooks/use-product-columns';
 import NewPurchaseSummary from '../new-purchase-summary';
-import ProductsTableHeader, { ProductType } from './products-table-header';
+import ProductsTableHeader from './products-table-header';
 
 interface MainProductTableProps {
 	purchase: Prisma.PurchaseGetPayload<{ include: { products: true } }>;
 	products: ProductType[];
 }
 
-const MainProductTable = ({ purchase, products }: MainProductTableProps) => {
+const ProductTableContent = ({ purchase }: { purchase: Prisma.PurchaseGetPayload<{ include: { products: true } }> }) => {
 	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 	const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
 
+	const { optimisticProducts, addOptimisticProduct } = useOptimisticProducts();
+
 	const deleteMultipleProducts = useCallback(async (ids: string[]) => {
+		addOptimisticProduct({ type: 'delete_multiple', productIds: ids });
+
 		try {
 			await Promise.all(ids.map(id => deleteProductAction({ id })));
 		} catch (error) {
-			console.error('Erro ao deletar compras:', error);
+			console.error('Erro ao deletar produtos:', error);
 		}
-	}, []);
+	}, [addOptimisticProduct]);
 
 	const handleDeleteRows = async () => {
 		const selectedRows = table.getSelectedRowModel().rows;
@@ -53,7 +58,7 @@ const MainProductTable = ({ purchase, products }: MainProductTableProps) => {
 	const columns = useProductColumns();
 
 	const table = useReactTable({
-		data: products,
+		data: optimisticProducts,
 		columns,
 		getCoreRowModel: getCoreRowModel(),
 		getSortedRowModel: getSortedRowModel(),
@@ -131,6 +136,14 @@ const MainProductTable = ({ purchase, products }: MainProductTableProps) => {
 				</div>
 			</Card>
 		</div>
+	);
+};
+
+const MainProductTable = ({ purchase, products }: MainProductTableProps) => {
+	return (
+		<OptimisticProvider initialProducts={products}>
+			<ProductTableContent purchase={purchase} />
+		</OptimisticProvider>
 	);
 };
 

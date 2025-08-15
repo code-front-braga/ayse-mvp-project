@@ -31,6 +31,7 @@ import {
 	SheetTitle,
 } from '@/components/ui/sheet';
 import { COLORS } from '@/enums/colors';
+import { useOptimisticProducts } from '@/hooks/use-optimistic-products';
 
 import ProductForm from '../product-form';
 
@@ -42,10 +43,15 @@ const ProductRowActions = React.memo(({ product }: ProductRowActionsProps) => {
 	const [isUpdatePending, startUpdateTransition] = useTransition();
 	const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 	const [showEditSheet, setShowEditSheet] = useState(false);
+	const { addOptimisticProduct } = useOptimisticProducts();
 
 	const handleDelete = () => {
 		startUpdateTransition(async () => {
 			try {
+				addOptimisticProduct({
+					type: 'delete',
+					productId: product.id,
+				});
 				const response = await deleteProductAction({ id: product.id });
 
 				if (response?.success) {

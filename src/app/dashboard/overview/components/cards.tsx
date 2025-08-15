@@ -131,8 +131,12 @@ const Cards = async () => {
 							</span>
 							<Tooltip>
 								<TooltipTrigger asChild>
-									<Link href="">
-										<ArrowUpRight size={12} className="text-primary/70" />
+									<Link
+										href=""
+										className="text-primary flex items-center gap-1 underline underline-offset-2"
+									>
+										<span className="text-xs">detalhes</span>
+										<ArrowUpRight size={12} color={COLORS.PRIMARY} />
 									</Link>
 								</TooltipTrigger>
 								<TooltipContent side="bottom" className="shadow-lg">
@@ -163,7 +167,7 @@ const Cards = async () => {
 									className="text-primary flex items-center gap-1 text-xs underline underline-offset-2"
 								>
 									{mostVisitedSupermarketData.visitCount} visitas registradas
-									<ArrowUpRight size={12} className="text-primary/70" />
+									<ArrowUpRight size={12} color={COLORS.PRIMARY} />
 								</Link>
 							</TooltipTrigger>
 							<TooltipContent side="bottom" className="shadow-lg">
@@ -206,7 +210,12 @@ const Cards = async () => {
 					<>
 						{currentMonthData.hasCurrentMonthPurchases &&
 							currentMonthData.changeType !== 'no-comparison' && (
-								<Badge className={cn('rounded-sm text-xs font-semibold', getTrendBadgeStyles())}>
+								<Badge
+									className={cn(
+										'rounded-sm text-xs font-semibold',
+										getTrendBadgeStyles(),
+									)}
+								>
 									{renderTrendIcon()}
 									{Math.round(currentMonthData.percentageChange)}%
 								</Badge>

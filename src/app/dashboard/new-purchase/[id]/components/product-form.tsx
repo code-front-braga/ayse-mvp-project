@@ -34,6 +34,7 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { stringUtils } from '@/helpers/string-utils';
+import { useOptimisticProducts } from '@/hooks/use-optimistic-products';
 
 import { PRODUCT_CATEGORIES } from '../constants/product-categories';
 
@@ -52,6 +53,8 @@ const ProductForm = ({
 }: ProductFormProps) => {
 	const [isPending, startTransition] = useTransition();
 	const { closeAllModals } = useAddProductModal();
+	const { addOptimisticProduct } = useOptimisticProducts();
+
 	const params = useParams();
 	const purchaseId = params.id as string;
 
@@ -70,6 +73,17 @@ const ProductForm = ({
 		form.handleSubmit(async (data: ProductSchema) => {
 			startTransition(async () => {
 				try {
+					if (actionMode === 'add') {
+						addOptimisticProduct({
+							type: 'add',
+							product: {
+								...data,
+								id: crypto.randomUUID(),
+								total: data.price * data.quantity,
+								purchaseId,
+							},
+						});
+					}
 					const response =
 						actionMode === 'add'
 							? await addProductAction({ ...data, purchaseId })
@@ -91,7 +105,16 @@ const ProductForm = ({
 				}
 			});
 		}),
-		[form, startTransition, purchaseId, productId, closeAllModals],
+		[
+			form,
+			startTransition,
+			purchaseId,
+			productId,
+			closeAllModals,
+			actionMode,
+			addOptimisticProduct,
+			onSuccess,
+		],
 	);
 
 	return (

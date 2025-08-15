@@ -2,19 +2,23 @@ import { Prisma } from 'generated/prisma';
 
 import { stringUtils } from '@/helpers/string-utils';
 
+import AlertDialogDeletePurchase from './alert-dialog-delete-purchase';
 import AlertDialogRegisterPurchase from './alert-dialog-register-purchase';
 import SheetDrawerAddProduct from './sheet-drawer-add-product';
-import { ProductType } from './table/products-table-header';
 
 interface NewPurchaseSummaryProps {
-	purchase: Prisma.PurchaseGetPayload<{ include: { products: true } }>;
-	products: ProductType[];
+	purchase: Prisma.PurchaseGetPayload<{
+		select: {
+			id: true;
+			supermarket: true;
+			date: true;
+			products: true;
+			total: true;
+		};
+	}>;
 }
 
-const NewPurchaseSummary = ({
-	purchase,
-	products,
-}: NewPurchaseSummaryProps) => {
+const NewPurchaseSummary = ({ purchase }: NewPurchaseSummaryProps) => {
 	const formattedTotal = stringUtils.formatToCurrencyBRL(purchase.total);
 
 	return (
@@ -31,20 +35,18 @@ const NewPurchaseSummary = ({
 
 					<div className="flex w-full flex-col items-end justify-center rounded-md md:w-fit md:items-start md:rounded-none md:border-0 md:shadow-none">
 						<p className="text-muted-foreground text-xs md:text-sm">
-							{products.length === 1 ? 'Produto' : 'Produtos'}
+							{purchase.products.length === 1 ? 'Produto' : 'Produtos'}
 						</p>
 						<span className="text-primary text-sm font-semibold md:text-base">
-							{stringUtils.padWithZero(products.length)}
+							{stringUtils.padWithZero(purchase.products.length)}
 						</span>
 					</div>
 				</div>
 
 				<div className="flex w-full flex-col items-center gap-3 md:w-fit md:flex-row">
 					<SheetDrawerAddProduct />
-					<AlertDialogRegisterPurchase
-						purchase={purchase}
-						products={products}
-					/>
+					<AlertDialogRegisterPurchase purchase={purchase} />
+					<AlertDialogDeletePurchase purchase={purchase} />
 				</div>
 			</div>
 		</>

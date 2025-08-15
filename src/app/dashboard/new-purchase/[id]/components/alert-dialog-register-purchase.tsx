@@ -25,24 +25,29 @@ import { AppRoutes } from '@/enums/app-routes';
 import { stringUtils } from '@/helpers/string-utils';
 
 import RegisterPurchaseDetails from './Register-purchase-details';
-import { ProductType } from './table/products-table-header';
 
 interface AlertDialogRegisterPurchaseProps {
-	purchase: Prisma.PurchaseGetPayload<{ include: { products: true } }>;
-	products: ProductType[];
+	purchase: Prisma.PurchaseGetPayload<{
+		select: {
+			id: true;
+			supermarket: true;
+			date: true;
+			products: true;
+			total: true;
+		};
+	}>;
 }
 
 const AlertDialogRegisterPurchase = ({
 	purchase,
-	products,
 }: AlertDialogRegisterPurchaseProps) => {
 	const [isPending, startTransition] = useTransition();
 
 	const router = useRouter();
 
 	const hasProducts = useMemo(
-		() => products && products.length > 0,
-		[products],
+		() => purchase.products && purchase.products.length > 0,
+		[purchase],
 	);
 
 	const handleRegisterPurchase = async () => {

@@ -4,7 +4,7 @@ import { Separator } from '@/components/ui/separator';
 import { stringUtils } from '@/helpers/string-utils';
 
 interface NewPurchaseHeaderProps {
-	purchase: Purchase;
+	purchase: Pick<Purchase, 'supermarket' | 'date' | 'address'>;
 }
 
 const NewPurchaseHeader = ({ purchase }: NewPurchaseHeaderProps) => {

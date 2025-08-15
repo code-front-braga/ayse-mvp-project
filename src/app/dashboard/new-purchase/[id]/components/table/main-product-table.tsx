@@ -8,7 +8,6 @@ import {
 	getFilteredRowModel,
 	getPaginationRowModel,
 	getSortedRowModel,
-	SortingState,
 	useReactTable,
 	VisibilityState,
 } from '@tanstack/react-table';
@@ -34,12 +33,6 @@ const MainProductTable = ({ purchase, products }: MainProductTableProps) => {
 	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 	const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-	const [sorting, setSorting] = useState<SortingState>([
-		{
-			id: 'name',
-			desc: false,
-		},
-	]);
 
 	const deleteMultipleProducts = useCallback(async (ids: string[]) => {
 		try {
@@ -64,7 +57,6 @@ const MainProductTable = ({ purchase, products }: MainProductTableProps) => {
 		columns,
 		getCoreRowModel: getCoreRowModel(),
 		getSortedRowModel: getSortedRowModel(),
-		onSortingChange: setSorting,
 		enableSortingRemoval: false,
 		getPaginationRowModel: getPaginationRowModel(),
 		onPaginationChange: setPagination,
@@ -73,7 +65,6 @@ const MainProductTable = ({ purchase, products }: MainProductTableProps) => {
 		getFilteredRowModel: getFilteredRowModel(),
 		getFacetedUniqueValues: getFacetedUniqueValues(),
 		state: {
-			sorting,
 			pagination,
 			columnFilters,
 			columnVisibility,
@@ -82,7 +73,7 @@ const MainProductTable = ({ purchase, products }: MainProductTableProps) => {
 
 	return (
 		<div className="flex h-full flex-col">
-			<NewPurchaseSummary purchase={purchase} products={products} />
+			<NewPurchaseSummary purchase={purchase} />
 
 			<ProductsTableHeader
 				table={table}

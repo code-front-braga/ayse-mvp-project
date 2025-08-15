@@ -1,5 +1,6 @@
 import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
 
 import { Separator } from '@/components/ui/separator';
 import { auth } from '@/lib/better-auth';
@@ -7,6 +8,7 @@ import { prisma } from '@/lib/prisma-client';
 
 import NewPurchaseHeader from './components/new-purchase-header';
 import MainProductTable from './components/table/main-product-table';
+import ProductTableSkeleton from './components/table/product-table-skeleton';
 
 interface NewPurchasePageProps {
 	params: Promise<{ id: string }>;
@@ -21,7 +23,7 @@ const NewPurchasePage = async ({ params }: NewPurchasePageProps) => {
 
 	const purchase = await prisma.purchase.findFirst({
 		where: { id: purchaseId, userId: session.user.id },
-		include: { products: true },
+		include: { products: { orderBy: { createdAt: 'desc' } } },
 	});
 
 	if (!purchase) notFound();
@@ -31,7 +33,9 @@ const NewPurchasePage = async ({ params }: NewPurchasePageProps) => {
 			<NewPurchaseHeader purchase={purchase} />
 			<Separator />
 			<div className="grid grid-cols-1 gap-4">
-				<MainProductTable purchase={purchase} products={purchase.products} />
+				<Suspense fallback={<ProductTableSkeleton />}>
+					<MainProductTable purchase={purchase} products={purchase.products} />
+				</Suspense>
 			</div>
 		</div>
 	);

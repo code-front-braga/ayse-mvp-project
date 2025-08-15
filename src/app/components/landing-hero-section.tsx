@@ -1,7 +1,5 @@
-import Link from 'next/link';
-
+import { SmartAuthButton } from '@/components/smart-auth-button';
 import { Button } from '@/components/ui/button';
-import { AppRoutes } from '@/enums/app-routes';
 
 const LandingHeroSection = () => {
 	return (
@@ -19,20 +17,19 @@ const LandingHeroSection = () => {
 					descubra padrões de consumo para economizar mais.
 				</p>
 				<div className="flex flex-col justify-center gap-3 px-4 sm:flex-row sm:gap-4">
-					<Button
-						asChild
+					<SmartAuthButton
 						size="lg"
 						className="w-full px-6 py-3 text-base sm:w-auto sm:px-8 sm:py-6 sm:text-lg"
 					>
-						<Link href={AppRoutes.SIGN_UP}>Começar a Economizar</Link>
-					</Button>
+						Começar a Economizar
+					</SmartAuthButton>
 					<Button
 						asChild
 						variant="outline"
 						size="lg"
 						className="w-full px-6 py-3 text-base sm:w-auto sm:px-8 sm:py-6 sm:text-lg"
 					>
-						<Link href="#resources">Ver Como Funciona</Link>
+						<a href="#resources">Ver Como Funciona</a>
 					</Button>
 				</div>
 			</div>

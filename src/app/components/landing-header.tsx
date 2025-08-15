@@ -1,6 +1,7 @@
 import { ChartNoAxesCombined } from 'lucide-react';
 import Link from 'next/link';
 
+import { SmartAuthButton } from '@/components/smart-auth-button';
 import { Button } from '@/components/ui/button';
 import { AppRoutes } from '@/enums/app-routes';
 
@@ -23,12 +24,10 @@ const LandingHeader = () => {
 					<Button asChild variant="ghost" size="sm" className="hidden sm:flex">
 						<Link href={AppRoutes.SIGN_IN}>Entrar</Link>
 					</Button>
-					<Button asChild size="sm" className="px-3 text-xs sm:px-4 sm:text-sm">
-						<Link href={AppRoutes.SIGN_UP}>
-							<span className="sm:hidden">Começar</span>
-							<span className="hidden sm:inline">Começar Agora</span>
-						</Link>
-					</Button>
+					<SmartAuthButton size="sm" className="px-3 text-xs sm:px-4 sm:text-sm">
+						<span className="sm:hidden">Começar</span>
+						<span className="hidden sm:inline">Começar Agora</span>
+					</SmartAuthButton>
 				</div>
 			</nav>
 		</header>

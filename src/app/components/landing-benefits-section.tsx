@@ -1,7 +1,4 @@
-import Link from 'next/link';
-
-import { Button } from '@/components/ui/button';
-import { AppRoutes } from '@/enums/app-routes';
+import { SmartAuthButton } from '@/components/smart-auth-button';
 
 import { benefits } from '../(apresentation)/data/benefits';
 import BenefitItem from './benefit-item';
@@ -29,9 +26,9 @@ const LandingBenefitsSection = () => {
 							<div className="mb-4 text-gray-600 sm:mb-6">
 								Gratuito para começar
 							</div>
-							<Button asChild size="lg" className="w-full text-sm sm:text-base">
-								<Link href={AppRoutes.SIGN_UP}>Criar Conta Agora</Link>
-							</Button>
+							<SmartAuthButton size="lg" className="w-full text-sm sm:text-base">
+								Criar Conta Agora
+							</SmartAuthButton>
 							<p className="mt-3 text-xs text-gray-500 sm:mt-4 sm:text-sm">
 								Sem cartão de crédito necessário
 							</p>

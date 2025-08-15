@@ -1,7 +1,4 @@
-import Link from 'next/link';
-
-import { Button } from '@/components/ui/button';
-import { AppRoutes } from '@/enums/app-routes';
+import { SmartAuthButton } from '@/components/smart-auth-button';
 
 const LandingCtaSection = () => {
 	return (
@@ -14,13 +11,12 @@ const LandingCtaSection = () => {
 					Junte-se a milhares de usuários que já estão controlando seus gastos
 					no supermercado
 				</p>
-				<Button
-					asChild
+				<SmartAuthButton
 					size="lg"
 					className="w-full px-6 py-3 text-base sm:w-auto sm:px-8 sm:py-6 sm:text-lg"
 				>
-					<Link href={AppRoutes.SIGN_UP}>Começar Agora - É Grátis</Link>
-				</Button>
+					Começar Agora - É Grátis
+				</SmartAuthButton>
 			</div>
 		</section>
 	);

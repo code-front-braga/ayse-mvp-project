@@ -2,6 +2,8 @@ import { ShoppingCart } from 'lucide-react';
 
 import { COLORS } from '@/enums/colors';
 
+import DrawerDialogPurchaseForm from '../../components/sidebar/drawer-dialog-purchase-form';
+
 const EmptyState = () => {
 	return (
 		<div className="flex flex-col items-center justify-center px-4 py-16 text-center">
@@ -15,10 +17,8 @@ const EmptyState = () => {
 				Você ainda não registrou nenhuma compra. Comece criando sua primeira
 				compra para acompanhar seus gastos.
 			</p>
-			<div className="bg-primary text-background rounded p-2 text-sm md:text-base">
-				<p>
-					Clique no botão "+ Cadastrar Compra" no menu lateral para começar.
-				</p>
+			<div>
+				<DrawerDialogPurchaseForm />
 			</div>
 		</div>
 	);

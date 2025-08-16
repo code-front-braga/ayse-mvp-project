@@ -17,7 +17,6 @@ export const AuthCustomImage = ({
 				src={src}
 				alt={alt}
 				fill
-				quality={100}
 				priority={true}
 				className="object-cover opacity-50"
 			/>

@@ -61,7 +61,7 @@ const UserDropdown = ({ user, isMobile }: UserDropdownProps) => {
 				<DropdownMenuSeparator />
 				<DropdownMenuGroup className="space-y-2">
 					<DropdownMenuItem asChild>
-						<Link href={AppRoutes.DASHBOARD_ACCOUNT}>
+						<Link href={AppRoutes.DASHBOARD_ACCOUNT} prefetch={true}>
 							<UserCircle color={COLORS.PRIMARY} />
 							Conta
 						</Link>

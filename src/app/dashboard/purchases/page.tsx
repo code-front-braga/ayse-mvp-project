@@ -9,41 +9,41 @@ import DashboardHeader from '../components/shared/dashboard-header';
 import MainPurchasesTable from './components/table/main-purchases-table';
 
 export const metadata: Metadata = {
-  title: 'Minhas Compras',
-  description: 'Aqui você pode visualizar e gerenciar suas compras.',
+	title: 'Minhas Compras',
+	description: 'Aqui você pode visualizar e gerenciar suas compras.',
 };
 
 interface PurchasesPageProps {
-  searchParams: { details?: string };
+	searchParams: Promise<{ details?: string }>;
 }
 
 const PurchasesPage = async ({ searchParams }: PurchasesPageProps) => {
-  const { details } = searchParams;
+	const { details } = await searchParams;
 
-  // Se tiver o parâmetro details, redireciona para a página de detalhes
-  if (details) {
-    return redirect(`/dashboard/purchases/${details}`);
-  }
+	// Se tiver o parâmetro details, redireciona para a página de detalhes
+	if (details) {
+		return redirect(`/dashboard/purchases/${details}`);
+	}
 
-  const session = await auth.api.getSession({ headers: await headers() });
-  const userId = session?.user?.id;
+	const session = await auth.api.getSession({ headers: await headers() });
+	const userId = session?.user?.id;
 
-  const purchases = await prisma.purchase.findMany({
-    where: { userId },
-  });
+	const purchases = await prisma.purchase.findMany({
+		where: { userId },
+	});
 
-  return (
-    <>
-      <DashboardHeader
-        title="Minhas Compras"
-        description="Aqui você pode visualizar e gerenciar suas compras."
-      />
+	return (
+		<>
+			<DashboardHeader
+				title="Minhas Compras"
+				description="Aqui você pode visualizar e gerenciar suas compras."
+			/>
 
-      <div className="min-h-0 flex-1">
-        <MainPurchasesTable purchases={purchases} />
-      </div>
-    </>
-  );
+			<div className="min-h-0 flex-1">
+				<MainPurchasesTable purchases={purchases} />
+			</div>
+		</>
+	);
 };
 
 export default PurchasesPage;

@@ -25,6 +25,7 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Spinner } from '@/components/ui/kibo-ui/spinner';
 import { AppRoutes } from '@/enums/app-routes';
 import { COLORS } from '@/enums/colors';
 
@@ -95,9 +96,11 @@ const PurchaseRowActions = React.memo(
 							</DropdownMenuItem>
 						)}
 
-						<DropdownMenuItem>
-							<Text />
-							Ver Detalhes
+						<DropdownMenuItem asChild>
+							<Link href={`${AppRoutes.DASHBOARD_PURCHASES}/${purchase.id}`}>
+								<Text />
+								Ver Detalhes
+							</Link>
 						</DropdownMenuItem>
 						<DropdownMenuItem
 							onClick={() => setShowDeleteDialog(true)}
@@ -135,7 +138,14 @@ const PurchaseRowActions = React.memo(
 								disabled={isPending}
 								className="bg-destructive hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 text-white shadow-xs"
 							>
-								Excluir Permanentemente
+								{isPending ? (
+									<div className="flex items-center">
+										<Spinner variant="bars" />
+										<span>Excluindo...</span>
+									</div>
+								) : (
+									'Excluir Permanentemente'
+								)}
 							</AlertDialogAction>
 						</AlertDialogFooter>
 					</AlertDialogContent>

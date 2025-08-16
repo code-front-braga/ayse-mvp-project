@@ -11,6 +11,7 @@ interface NewPurchaseSummaryProps {
 		select: {
 			id: true;
 			supermarket: true;
+			address: true;
 			date: true;
 			products: true;
 			total: true;

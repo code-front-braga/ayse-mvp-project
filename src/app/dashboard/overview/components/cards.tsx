@@ -17,6 +17,7 @@ import {
 	TooltipContent,
 	TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { AppRoutes } from '@/enums/app-routes';
 import { COLORS } from '@/enums/colors';
 import { stringUtils } from '@/helpers/string-utils';
 import { prisma } from '@/lib/prisma-client';
@@ -128,7 +129,8 @@ const Cards = async () => {
 				footerChildren={
 					<>
 						<span className="text-primary/75 line-clamp-1 text-xs font-medium md:text-sm">
-							Realizada no {lastPurchase?.supermarket}
+							Realizada no{' '}
+							<span className="font-semibold">{lastPurchase?.supermarket}</span>
 						</span>
 						<div className="flex w-full items-center justify-between">
 							<span className="text-muted-foreground text-xs">
@@ -137,7 +139,7 @@ const Cards = async () => {
 							<Tooltip>
 								<TooltipTrigger asChild>
 									<Link
-										href=""
+										href={`${AppRoutes.DASHBOARD_PURCHASES}/${lastPurchase.id}`}
 										className="text-primary flex items-center gap-1 underline underline-offset-2"
 									>
 										<span className="text-xs">detalhes</span>
@@ -168,7 +170,7 @@ const Cards = async () => {
 						<Tooltip>
 							<TooltipTrigger asChild>
 								<Link
-									href=""
+									href={`${AppRoutes.DASHBOARD_PURCHASES}`}
 									className="text-primary flex items-center gap-1 text-xs underline underline-offset-2"
 								>
 									{mostVisitedSupermarketData.visitCount} visitas registradas
@@ -234,8 +236,8 @@ const Cards = async () => {
 							</TooltipTrigger>
 							<TooltipContent side="bottom" className="shadow-lg">
 								{currentMonthData.hasCurrentMonthPurchases
-									? `${currentMonthData.currentMonthPurchasesCount} compras realizadas em ${currentMonthData.currentMonthName}`
-									: `Nenhuma compra registrada em ${currentMonthData.currentMonthName}`}
+									? `${currentMonthData.currentMonthPurchasesCount} compras finalizadas em ${currentMonthData.currentMonthName}`
+									: `Nenhuma compra finalizada em ${currentMonthData.currentMonthName}`}
 							</TooltipContent>
 						</Tooltip>
 					</>

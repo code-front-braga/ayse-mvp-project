@@ -4,9 +4,9 @@ import { useMemo } from 'react';
 import { EditProductActionProps } from '@/actions/product-actions/edit-product-action';
 import { Checkbox } from '@/components/ui/checkbox';
 import { stringUtils } from '@/helpers/string-utils';
+import { ProductType } from '@/hooks/use-optimistic-products';
 
 import ProductRowActions from '../components/table/product-row-actions';
-import { ProductType } from '../components/table/products-table-header';
 
 const categoryFilterFn: FilterFn<ProductType> = (
 	row,

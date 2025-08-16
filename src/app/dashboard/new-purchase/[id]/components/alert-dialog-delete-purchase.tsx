@@ -23,7 +23,7 @@ import { Button } from '@/components/ui/button';
 import { AppRoutes } from '@/enums/app-routes';
 import { stringUtils } from '@/helpers/string-utils';
 
-import RegisterPurchaseDetails from './Register-purchase-details';
+import RegisterPurchaseDetails from './register-purchase-details';
 
 interface AlertDialogDeletePurchaseProps {
 	purchase: Prisma.PurchaseGetPayload<{

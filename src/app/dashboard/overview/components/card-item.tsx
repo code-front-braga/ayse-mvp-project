@@ -31,7 +31,7 @@ const CardItem = ({
 				</CardTitle>
 				<CardAction>{actionChildren}</CardAction>
 			</CardHeader>
-			<CardFooter className="flex-col items-start">
+			<CardFooter className="flex-col items-start gap-1">
 				{footerChildren}
 			</CardFooter>
 		</Card>

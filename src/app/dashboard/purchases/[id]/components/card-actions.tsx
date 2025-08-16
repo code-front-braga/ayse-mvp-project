@@ -48,7 +48,7 @@ const CardActions = ({ purchase }: CardActionsProps) => {
 
 			toast.error(response.error);
 		});
-	}, []);
+	}, [purchase.id, router, startTransition]);
 
 	return (
 		<>

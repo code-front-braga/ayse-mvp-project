@@ -1,6 +1,7 @@
 import { PurchaseStatus } from 'generated/prisma';
 import {
 	ArrowUpRight,
+	MapPin,
 	Medal,
 	Minus,
 	TrendingDown,
@@ -133,9 +134,12 @@ const Cards = async () => {
 							<span className="font-semibold">{lastPurchase?.supermarket}</span>
 						</span>
 						<div className="flex w-full items-center justify-between">
-							<span className="text-muted-foreground text-xs">
-								{lastPurchase?.address}
-							</span>
+							<div className="flex items-center gap-1">
+								<MapPin color={COLORS.PRIMARY} className="h-3.5 w-3.5" />
+								<span className="text-muted-foreground text-xs">
+									{lastPurchase?.address}
+								</span>
+							</div>
 							<Tooltip>
 								<TooltipTrigger asChild>
 									<Link

@@ -27,7 +27,7 @@ const SearchInput = ({
 				id={id}
 				ref={inputRef}
 				className={cn(
-					'peer bg-background from-accent/60 to-accent min-w-60 bg-gradient-to-br ps-9',
+					'peer bg-background from-accent/60 to-accent w-full min-w-60 bg-gradient-to-br ps-9 md:w-auto',
 					Boolean(value) && 'pe-9',
 				)}
 				value={value}

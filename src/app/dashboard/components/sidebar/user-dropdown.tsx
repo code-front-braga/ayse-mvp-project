@@ -1,5 +1,5 @@
 import { User } from 'generated/prisma';
-import { EllipsisVertical, LogOut, UserCircle } from 'lucide-react';
+import { EllipsisVertical, LogOut, UserRoundCog } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
@@ -61,9 +61,9 @@ const UserDropdown = ({ user, isMobile }: UserDropdownProps) => {
 				<DropdownMenuSeparator />
 				<DropdownMenuGroup className="space-y-2">
 					<DropdownMenuItem asChild>
-						<Link href={AppRoutes.DASHBOARD_ACCOUNT} prefetch={true}>
-							<UserCircle color={COLORS.PRIMARY} />
-							Conta
+						<Link href={AppRoutes.DASHBOARD_SETTINGS} prefetch={true}>
+							<UserRoundCog color={COLORS.PRIMARY} />
+							Configurações
 						</Link>
 					</DropdownMenuItem>
 					<DropdownMenuItem asChild>

@@ -8,67 +8,57 @@ import {
 	getFilteredRowModel,
 	getPaginationRowModel,
 	getSortedRowModel,
+	SortingState,
 	useReactTable,
 	VisibilityState,
 } from '@tanstack/react-table';
-import { Prisma } from 'generated/prisma';
 import { useCallback, useState } from 'react';
 
-import { deleteProductAction } from '@/actions/product-actions/delete-product-action';
+import { deletePurchaseAction } from '@/actions/purchase-actions/delete-purchase-action';
 import CustomTableBody from '@/app/dashboard/components/shared/custom-table-body';
 import CustomTablePagination from '@/app/dashboard/components/shared/custom-table-pagination';
+import { PurchaseType } from '@/app/dashboard/overview/components/table/supermarket-columns';
 import { Card } from '@/components/ui/card';
 import { Table, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import {
-	OptimisticProvider,
-	ProductType,
-	useOptimisticProducts,
-} from '@/hooks/use-optimistic-products';
 
-import useProductColumns from '../../hooks/use-product-columns';
-import NewPurchaseSummary from '../new-purchase-summary';
-import ProductsTableHeader from './products-table-header';
+import usePurchaseColumns from '../../hooks/use-purchase-columns';
+import PurchaseTableHeader from './purchase-table-header';
 
-interface MainProductTableProps {
-	purchase: Prisma.PurchaseGetPayload<{ include: { products: true } }>;
-	products: ProductType[];
-}
-
-const ProductTableContent = ({ purchase }: MainProductTableProps) => {
+const MainPurchasesTable = ({ purchases }: { purchases: PurchaseType[] }) => {
 	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 	const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-
-	const { optimisticProducts, addOptimisticProduct } = useOptimisticProducts();
-
-	const deleteMultipleProducts = useCallback(
-		async (ids: string[]) => {
-			addOptimisticProduct({ type: 'delete_multiple', productIds: ids });
-
-			try {
-				await Promise.all(ids.map(id => deleteProductAction({ id })));
-			} catch (error) {
-				console.error('Erro ao deletar produtos:', error);
-			}
+	const [sorting, setSorting] = useState<SortingState>([
+		{
+			id: 'supermarket',
+			desc: false,
 		},
-		[addOptimisticProduct],
-	);
+	]);
+
+	const deleteMultiplePurchases = useCallback(async (ids: string[]) => {
+		try {
+			await Promise.all(ids.map(id => deletePurchaseAction(id)));
+		} catch (error) {
+			console.error('Erro ao deletar compras:', error);
+		}
+	}, []);
 
 	const handleDeleteRows = async () => {
 		const selectedRows = table.getSelectedRowModel().rows;
-		const selectedIds = selectedRows.map(row => row.original.id!);
+		const selectedIds = selectedRows.map(row => row.original.id);
 
-		await deleteMultipleProducts(selectedIds);
+		await deleteMultiplePurchases(selectedIds);
 		table.resetRowSelection();
 	};
 
-	const columns = useProductColumns();
+	const columns = usePurchaseColumns();
 
 	const table = useReactTable({
-		data: optimisticProducts,
+		data: purchases,
 		columns,
 		getCoreRowModel: getCoreRowModel(),
 		getSortedRowModel: getSortedRowModel(),
+		onSortingChange: setSorting,
 		enableSortingRemoval: false,
 		getPaginationRowModel: getPaginationRowModel(),
 		onPaginationChange: setPagination,
@@ -77,6 +67,7 @@ const ProductTableContent = ({ purchase }: MainProductTableProps) => {
 		getFilteredRowModel: getFilteredRowModel(),
 		getFacetedUniqueValues: getFacetedUniqueValues(),
 		state: {
+			sorting,
 			pagination,
 			columnFilters,
 			columnVisibility,
@@ -85,12 +76,10 @@ const ProductTableContent = ({ purchase }: MainProductTableProps) => {
 
 	return (
 		<div className="flex h-full flex-col">
-			<NewPurchaseSummary purchase={purchase} />
-
-			<ProductsTableHeader
+			<PurchaseTableHeader
 				table={table}
-				checkboxId="name"
 				onDeleteRows={handleDeleteRows}
+				checkboxId="purchase-checkbox"
 			/>
 
 			<Card className="bg-sidebar flex flex-1 flex-col shadow-md">
@@ -123,7 +112,7 @@ const ProductTableContent = ({ purchase }: MainProductTableProps) => {
 								<CustomTableBody
 									columns={columns}
 									table={table}
-									emptyMessage="Não há produtos cadastrados."
+									emptyMessage="Não há compras cadastradas."
 								/>
 								<tbody aria-hidden="true" className="table-row h-1"></tbody>
 							</Table>
@@ -146,12 +135,4 @@ const ProductTableContent = ({ purchase }: MainProductTableProps) => {
 	);
 };
 
-const MainProductTable = ({ purchase, products }: MainProductTableProps) => {
-	return (
-		<OptimisticProvider initialProducts={products}>
-			<ProductTableContent purchase={purchase} products={products} />
-		</OptimisticProvider>
-	);
-};
-
-export default MainProductTable;
+export default MainPurchasesTable;

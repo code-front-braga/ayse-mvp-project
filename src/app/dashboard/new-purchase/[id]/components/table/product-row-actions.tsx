@@ -40,9 +40,9 @@ export type ProductRowActionsProps = {
 };
 
 const ProductRowActions = React.memo(({ product }: ProductRowActionsProps) => {
-	const [isUpdatePending, startUpdateTransition] = useTransition();
-	const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 	const [showEditSheet, setShowEditSheet] = useState(false);
+	const [isUpdatePending, startUpdateTransition] = useTransition();
 	const { addOptimisticProduct } = useOptimisticProducts();
 
 	const handleDelete = () => {

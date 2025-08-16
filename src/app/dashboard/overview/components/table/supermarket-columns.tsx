@@ -48,7 +48,7 @@ const supermarketColumns: ColumnDef<PurchaseType>[] = [
 		accessorKey: 'total',
 		cell: ({ row }) => (
 			<span className="text-foreground font-medium">
-				{stringUtils.formatToCurrencyBRL(row.original.total)}
+				{stringUtils.formatToCurrencyBRL(row.original.total) || 'R$ 0,00'}
 			</span>
 		),
 		size: 80,

@@ -9,6 +9,7 @@ import {
 	PopoverTrigger,
 } from '@/components/ui/popover';
 import { stringUtils } from '@/helpers/string-utils';
+import { translateStatus } from '@/helpers/translate-status';
 
 interface StatusFilterPopoverProps {
 	onTypeChange: (checked: boolean, value: string) => void;
@@ -52,10 +53,13 @@ const StatusFilterPopover = ({
 					<div className="space-y-3">
 						{uniqueTypeValues.length === 0 ? (
 							<div className="text-muted-foreground text-xs">
-								Nenhum {text} disponível para filtrar
+								Nenhum status disponível para filtrar
 							</div>
 						) : (
 							uniqueTypeValues.map((value, i) => {
+								const translatedStatus = translateStatus(
+									value as 'IN_PROCESS' | 'CANCELLED' | 'COMPLETED',
+								);
 								const isSelected = selectedType.includes(value);
 
 								return (
@@ -71,7 +75,7 @@ const StatusFilterPopover = ({
 											htmlFor={`${id}-${i}`}
 											className="flex grow justify-between gap-2 font-normal"
 										>
-											{stringUtils.toTitleCase(value)}
+											{stringUtils.toTitleCase(translatedStatus)}
 											<span className="text-muted-foreground ms-2 text-xs">
 												{typeCounts.get(value)}
 											</span>

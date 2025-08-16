@@ -14,11 +14,11 @@ import PurchaseSummaryDetails from './components/purchase-summary-details';
 import MainProductDetailsTable from './components/table/main-product-details-table';
 
 interface PurchaseDetailsProps {
-	params: { id: string };
+	params: Promise<{ id: string }>;
 }
 
 const PurchaseDetails = async ({ params }: PurchaseDetailsProps) => {
-	const { id } = params;
+	const { id } = await params;
 
 	const purchase = await prisma.purchase.findFirst({
 		where: { id },

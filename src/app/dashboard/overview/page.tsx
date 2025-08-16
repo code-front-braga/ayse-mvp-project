@@ -22,6 +22,7 @@ const OverviewPage = async () => {
 		include: {
 			products: true,
 		},
+    orderBy: { completedAt: 'desc' }
 	});
 	return (
 		<>

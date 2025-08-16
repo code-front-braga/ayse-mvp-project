@@ -19,6 +19,13 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+} from '@/components/ui/dialog';
+import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
@@ -40,9 +47,12 @@ export type ProductRowActionsProps = {
 };
 
 const ProductRowActions = React.memo(({ product }: ProductRowActionsProps) => {
-  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+	const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 	const [showEditSheet, setShowEditSheet] = useState(false);
+	const [showDescription, setShowDescription] = useState(false);
+
 	const [isUpdatePending, startUpdateTransition] = useTransition();
+
 	const { addOptimisticProduct } = useOptimisticProducts();
 
 	const handleDelete = () => {
@@ -83,7 +93,7 @@ const ProductRowActions = React.memo(({ product }: ProductRowActionsProps) => {
 							size="icon"
 							variant="ghost"
 							className="text-muted-foreground/60 shadow-none"
-							aria-label="Edit item"
+							aria-label="Editar item"
 						>
 							<Ellipsis
 								size={20}
@@ -103,10 +113,11 @@ const ProductRowActions = React.memo(({ product }: ProductRowActionsProps) => {
 						<PenLine color={COLORS.PRIMARY} />
 						Editar
 					</DropdownMenuItem>
-					<DropdownMenuItem>
+					<DropdownMenuItem onClick={() => setShowDescription(true)}>
 						<Text />
-						Ver Detalhes
+						Descrição
 					</DropdownMenuItem>
+
 					<DropdownMenuItem
 						onClick={() => setShowDeleteDialog(true)}
 						variant="destructive"
@@ -116,6 +127,15 @@ const ProductRowActions = React.memo(({ product }: ProductRowActionsProps) => {
 					</DropdownMenuItem>
 				</DropdownMenuContent>
 			</DropdownMenu>
+
+			<Dialog open={showDescription} onOpenChange={setShowDescription}>
+				<DialogContent className="sm:max-w-md">
+					<DialogHeader>
+						<DialogTitle>Descrição do Produto</DialogTitle>
+						<DialogDescription>{product.description}</DialogDescription>
+					</DialogHeader>
+				</DialogContent>
+			</Dialog>
 
 			<AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
 				<AlertDialogContent>

@@ -106,9 +106,14 @@ const Cards = async () => {
 					/>
 				}
 				footerChildren={
-					<span className="text-primary/75 line-clamp-1 text-xs font-medium md:text-sm">
-						Valor acumulado
-					</span>
+					<div className="flex flex-col items-start">
+						<p className="text-muted-foreground text-sm">
+							Quantidade de Compras:
+						</p>
+						<p className="text-primary font-semibold">
+							{stringUtils.padWithZero(allCompletedPurchases.length)}
+						</p>
+					</div>
 				}
 			/>
 

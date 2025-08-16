@@ -10,6 +10,7 @@ import { prisma } from '@/lib/prisma-client';
 import NewPurchaseHeader from './components/new-purchase-header';
 import MainProductTable from './components/table/main-product-table';
 import ProductTableSkeleton from './components/table/product-table-skeleton';
+
 interface NewPurchasePageProps {
 	params: Promise<{ id: string }>;
 }

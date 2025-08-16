@@ -1,5 +1,7 @@
 'use server';
 
+import { PurchaseStatus } from 'generated/prisma';
+
 import { prisma } from '@/lib/prisma-client';
 
 export interface MonthlyPurchaseData {
@@ -10,6 +12,11 @@ export interface MonthlyPurchaseData {
 export async function getMonthlyPurchases(): Promise<MonthlyPurchaseData[]> {
 	// Buscar a data da primeira compra do usuário
 	const firstPurchase = await prisma.purchase.findFirst({
+		where: {
+			status: {
+				not: PurchaseStatus.CANCELLED
+			}
+		},
 		orderBy: {
 			date: 'asc',
 		},
@@ -47,6 +54,9 @@ export async function getMonthlyPurchases(): Promise<MonthlyPurchaseData[]> {
 			date: {
 				gte: startDate,
 			},
+			status: {
+				not: PurchaseStatus.CANCELLED
+			}
 		},
 		select: {
 			date: true,
@@ -59,7 +69,7 @@ export async function getMonthlyPurchases(): Promise<MonthlyPurchaseData[]> {
 
 	// Agrupar compras por mês
 	const monthlyData: Record<string, number> = {};
-	
+
 	// Inicializar os meses a serem mostrados com zero
 	for (let i = 0; i < monthsToShow; i++) {
 		const monthDate = new Date();

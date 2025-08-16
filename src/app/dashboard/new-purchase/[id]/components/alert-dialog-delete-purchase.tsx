@@ -1,13 +1,13 @@
 'use client';
 
 import { Prisma } from 'generated/prisma';
-import { Trash2 } from 'lucide-react';
+import { Ban } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useTransition } from 'react';
 import React from 'react';
 import { toast } from 'sonner';
 
-import { deletePurchaseAction } from '@/actions/purchase-actions/delete-purchase-action';
+import { cancelPurchaseAction } from '@/actions/purchase-actions/cancel-purchase-action';
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -25,11 +25,12 @@ import { stringUtils } from '@/helpers/string-utils';
 
 import RegisterPurchaseDetails from './register-purchase-details';
 
-interface AlertDialogDeletePurchaseProps {
+interface AlertDialogCancelPurchaseProps {
 	purchase: Prisma.PurchaseGetPayload<{
 		select: {
 			id: true;
 			supermarket: true;
+			address: true;
 			date: true;
 			products: true;
 			total: true;
@@ -37,15 +38,15 @@ interface AlertDialogDeletePurchaseProps {
 	}>;
 }
 
-const AlertDialogDeletePurchase = React.memo(
-	({ purchase }: AlertDialogDeletePurchaseProps) => {
+const AlertDialogCancelPurchase = React.memo(
+	({ purchase }: AlertDialogCancelPurchaseProps) => {
 		const [isPending, startTransition] = useTransition();
 		const router = useRouter();
 
-		const handleDeletePurchase = React.useCallback(async () => {
+		const handleCancelPurchase = React.useCallback(async () => {
 			startTransition(async () => {
 				try {
-					const response = await deletePurchaseAction(purchase.id);
+					const response = await cancelPurchaseAction(purchase.id);
 					if (response?.success) {
 						toast.success(response.success);
 						router.replace(AppRoutes.DASHBOARD_PURCHASES);
@@ -56,7 +57,7 @@ const AlertDialogDeletePurchase = React.memo(
 						toast.error(response.error);
 					}
 				} catch (error) {
-					console.error('Erro ao deletar compra:', error);
+					console.error('Erro ao cancelar compra:', error);
 					toast.error('Erro inesperado. Tente novamente.');
 				}
 			});
@@ -69,16 +70,16 @@ const AlertDialogDeletePurchase = React.memo(
 						variant="destructive"
 						className="w-full disabled:cursor-not-allowed disabled:bg-gray-400 disabled:text-gray-600 md:w-fit"
 					>
-						<Trash2 />
-						Deletar Compra
+						<Ban />
+						Cancelar Compra
 					</Button>
 				</AlertDialogTrigger>
 				<AlertDialogContent>
 					<AlertDialogHeader>
-						<AlertDialogTitle>Deletar Compra</AlertDialogTitle>
+						<AlertDialogTitle>Cancelar Compra</AlertDialogTitle>
 						<AlertDialogDescription className="text-start">
-							Esta ação não pode ser desfeita. Isso irá deletar permanentemente
-							esta compra e todos os produtos associados.
+							Esta ação não pode ser desfeita. Isso irá cancelar esta compra e
+							você não poderá mais editá-la.
 						</AlertDialogDescription>
 					</AlertDialogHeader>
 					<div className="flex flex-col gap-1">
@@ -86,6 +87,11 @@ const AlertDialogDeletePurchase = React.memo(
 							label="Supermercado"
 							description={purchase.supermarket}
 						/>
+						<RegisterPurchaseDetails
+							label="Endereço"
+							description={purchase.address || ''}
+						/>
+
 						<RegisterPurchaseDetails
 							label="Data da compra"
 							description={stringUtils.formatDateToBRL(purchase.date)}
@@ -96,18 +102,20 @@ const AlertDialogDeletePurchase = React.memo(
 						/>
 						<RegisterPurchaseDetails
 							label="Total"
-							description={stringUtils.formatToCurrencyBRL(purchase.total)}
+							description={
+								stringUtils.formatToCurrencyBRL(purchase.total) || 'R$ 0,00'
+							}
 						/>
 					</div>
 					<AlertDialogFooter>
-						<AlertDialogCancel disabled={isPending}>Cancelar</AlertDialogCancel>
+						<AlertDialogCancel disabled={isPending}>Voltar</AlertDialogCancel>
 						<AlertDialogAction asChild>
 							<Button
 								variant="destructive"
-								onClick={handleDeletePurchase}
+								onClick={handleCancelPurchase}
 								disabled={isPending}
 							>
-								{isPending ? 'Deletando...' : 'Deletar Compra'}
+								{isPending ? 'Cancelando...' : 'Cancelar Compra'}
 							</Button>
 						</AlertDialogAction>
 					</AlertDialogFooter>
@@ -117,6 +125,4 @@ const AlertDialogDeletePurchase = React.memo(
 	},
 );
 
-AlertDialogDeletePurchase.displayName = 'AlertDialogDeletePurchase';
-
-export default AlertDialogDeletePurchase;
+export default AlertDialogCancelPurchase;

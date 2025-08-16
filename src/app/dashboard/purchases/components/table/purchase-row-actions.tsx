@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import React, { useState, useTransition } from 'react';
 import { toast } from 'sonner';
 
-import { deletePurchaseAction } from '@/actions/purchase-actions/delete-purchase-action';
+import { permanentDeletePurchaseAction } from '@/actions/purchase-actions/permanent-delete-purchase-action';
 import { PurchaseType } from '@/app/dashboard/overview/components/table/supermarket-columns';
 import {
 	AlertDialog,
@@ -34,15 +34,17 @@ const PurchaseRowActions = React.memo(
 		const [isPending, startTransition] = useTransition();
 
 		const router = useRouter();
-		const isNotCompletedPurchase = purchase.status !== 'COMPLETED';
+		// const isEditable =
+		// 	purchase.status !== 'COMPLETED' && purchase.status !== 'CANCELLED';
+		const isEditable = purchase.status === 'IN_PROCESS';
 
-		const handleDeletePurchase = React.useCallback(async () => {
+		const handlePermanentDeletePurchase = React.useCallback(async () => {
 			startTransition(async () => {
 				try {
-					const response = await deletePurchaseAction(purchase.id);
+					const response = await permanentDeletePurchaseAction(purchase.id);
 					if (response?.success) {
 						toast.success(response.success);
-						router.replace(AppRoutes.DASHBOARD_PURCHASES);
+						router.refresh();
 						return;
 					}
 
@@ -50,7 +52,7 @@ const PurchaseRowActions = React.memo(
 						toast.error(response.error);
 					}
 				} catch (error) {
-					console.error('Erro ao deletar compra:', error);
+					console.error('Erro ao excluir compra permanentemente:', error);
 					toast.error('Erro inesperado. Tente novamente.');
 				}
 			});
@@ -65,7 +67,7 @@ const PurchaseRowActions = React.memo(
 								size="icon"
 								variant="ghost"
 								className="text-muted-foreground/60 shadow-none"
-								aria-label="Edit item"
+								aria-label="Editar item"
 							>
 								<Ellipsis
 									size={20}
@@ -77,7 +79,7 @@ const PurchaseRowActions = React.memo(
 						</div>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent align="end" className="w-auto">
-						{isNotCompletedPurchase && (
+						{isEditable && (
 							<DropdownMenuItem
 								asChild
 								variant="default"
@@ -102,7 +104,7 @@ const PurchaseRowActions = React.memo(
 							variant="destructive"
 						>
 							<Trash />
-							Deletar
+							Excluir Permanentemente
 						</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
@@ -119,8 +121,8 @@ const PurchaseRowActions = React.memo(
 							<AlertDialogHeader>
 								<AlertDialogTitle>Você tem certeza?</AlertDialogTitle>
 								<AlertDialogDescription>
-									Esta ação não poderá ser desfeita. Isso irá deletar
-									permanentemente esta compra
+									Esta ação não poderá ser desfeita. Isso irá excluir
+									permanentemente esta compra e todos os seus produtos.
 								</AlertDialogDescription>
 							</AlertDialogHeader>
 						</div>
@@ -129,11 +131,11 @@ const PurchaseRowActions = React.memo(
 								Cancelar
 							</AlertDialogCancel>
 							<AlertDialogAction
-								onClick={handleDeletePurchase}
+								onClick={handlePermanentDeletePurchase}
 								disabled={isPending}
 								className="bg-destructive hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 text-white shadow-xs"
 							>
-								Deletar
+								Excluir Permanentemente
 							</AlertDialogAction>
 						</AlertDialogFooter>
 					</AlertDialogContent>

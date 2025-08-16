@@ -69,13 +69,13 @@ const usePurchaseColumns = (): ColumnDef<PurchaseType>[] => {
 						{stringUtils.formatDateToBRL(row.original.date)}
 					</span>
 				),
-				size: 120,
+				size: 150,
 			},
 			{
 				header: 'Status',
 				accessorKey: 'status',
 				cell: ({ row }) => <StatusBadge status={row.original.status} />,
-				size: 110,
+				size: 140,
 				filterFn: statusFilterFn,
 			},
 			{
@@ -86,7 +86,7 @@ const usePurchaseColumns = (): ColumnDef<PurchaseType>[] => {
 						{stringUtils.formatToCurrencyBRL(row.original.total) || 'R$ 0,00'}
 					</span>
 				),
-				size: 110,
+				size: 80,
 			},
 			{
 				id: 'actions',

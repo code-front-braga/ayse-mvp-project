@@ -39,6 +39,7 @@ export const addProductAction = async (data: AddProductActionProps) => {
 				price: data.price,
 				quantity: data.quantity,
 				category: data.category,
+				description: data.description,
 				total: total,
 				purchaseId: purchase.id,
 			},

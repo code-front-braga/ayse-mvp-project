@@ -96,7 +96,7 @@ const useProductColumns = (): ColumnDef<ProductType>[] => {
 						</span>
 					);
 				},
-				size: 110,
+				size: 80,
 			},
 			{
 				id: 'actions',

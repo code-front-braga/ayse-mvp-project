@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
+import { headers } from 'next/headers';
 import { Suspense } from 'react';
 
 import { hasPurchases } from '@/actions/purchase-actions/has-purchases-action';
+import { auth } from '@/lib/better-auth';
 import { prisma } from '@/lib/prisma-client';
 
 import DashboardHeader from '../components/shared/dashboard-header';
@@ -17,13 +19,19 @@ export const metadata: Metadata = {
 };
 
 const OverviewPage = async () => {
+	const session = await auth.api.getSession({ headers: await headers() });
+	const userId = session?.user?.id;
+
 	const hasUserPurchases = await hasPurchases();
+
 	const purchases = await prisma.purchase.findMany({
+		where: { userId },
 		include: {
 			products: true,
 		},
-    orderBy: { completedAt: 'desc' }
+		orderBy: { completedAt: 'desc' },
 	});
+
 	return (
 		<>
 			<DashboardHeader

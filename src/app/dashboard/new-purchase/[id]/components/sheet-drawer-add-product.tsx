@@ -37,7 +37,7 @@ const SheetDrawerAddProduct = () => {
 						Adicionar Produto
 					</Button>
 				</DrawerTrigger>
-				<DrawerContent className="min-h-screen">
+				<DrawerContent className="min-h-dvh">
 					<DrawerHeader>
 						<DrawerTitle>Adicionar Produto</DrawerTitle>
 
@@ -45,7 +45,7 @@ const SheetDrawerAddProduct = () => {
 							Adicione um produto à sua compra.
 						</DrawerDescription>
 					</DrawerHeader>
-					<div className="fixed inset-x-0 top-[var(--drawer-header-height,_5rem)] bottom-0 overflow-y-auto px-4 pb-4">
+					<div className="h-screen px-4 pb-4">
 						<ProductForm actionMode="add" />
 					</div>
 				</DrawerContent>

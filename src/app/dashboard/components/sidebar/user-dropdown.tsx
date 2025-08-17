@@ -4,7 +4,9 @@ import { User } from 'generated/prisma';
 import { EllipsisVertical, LogOut, UserRoundCog } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
+import { signOutAction } from '@/actions/auth-actions/sign-out-action';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -29,11 +31,24 @@ interface UserDropdownProps {
 
 const UserDropdown = ({ user, isMobile }: UserDropdownProps) => {
 	const router = useRouter();
+	const [isLoading, setIsLoading] = useState(false);
 
 	const handleSignOut = async () => {
-		await authClient.signOut({
-			fetchOptions: { onSuccess: () => router.push(AppRoutes.SIGN_IN) },
-		});
+		setIsLoading(true);
+		try {
+			// Primeiro, chama a server action para fazer logout no servidor
+			await signOutAction();
+
+			// Em seguida, faz logout no cliente para atualizar o estado
+			await authClient.signOut();
+
+			// Redireciona para a página de login
+			router.push(AppRoutes.SIGN_IN);
+		} catch (error) {
+			console.error('Erro ao fazer logout:', error);
+		} finally {
+			setIsLoading(false);
+		}
 	};
 
 	return (
@@ -69,9 +84,14 @@ const UserDropdown = ({ user, isMobile }: UserDropdownProps) => {
 						</Link>
 					</DropdownMenuItem>
 					<DropdownMenuItem asChild>
-						<button type="button" onClick={handleSignOut} className="w-full">
+						<button
+							type="button"
+							onClick={handleSignOut}
+							className="w-full"
+							disabled={isLoading}
+						>
 							<LogOut color={COLORS.PRIMARY} />
-							Sair
+							{isLoading ? 'Saindo...' : 'Sair'}
 						</button>
 					</DropdownMenuItem>
 				</DropdownMenuGroup>

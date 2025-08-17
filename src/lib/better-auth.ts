@@ -14,7 +14,11 @@ export const auth = betterAuth({
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
 		},
 	},
-
+	session: {
+		cookieCache: {
+			enabled: false, // Desabilita o cache de cookie
+		},
+	},
 	database: prismaAdapter(prisma, {
 		provider: 'postgresql',
 	}),

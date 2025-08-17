@@ -16,7 +16,7 @@ export const auth = betterAuth({
 	},
 	session: {
 		cookieCache: {
-			enabled: false, // Desabilita o cache de cookie
+			enabled: true,
 		},
 	},
 	database: prismaAdapter(prisma, {

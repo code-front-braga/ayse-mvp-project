@@ -4,9 +4,8 @@ import { User } from 'generated/prisma';
 import { EllipsisVertical, LogOut, UserRoundCog } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useTransition } from 'react';
 
-import { signOutAction } from '@/actions/auth-actions/sign-out-action';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -19,8 +18,8 @@ import {
 import { SidebarMenuButton } from '@/components/ui/sidebar';
 import { AppRoutes } from '@/enums/app-routes';
 import { COLORS } from '@/enums/colors';
+import { authClient } from '@/lib/better-auth-client';
 
-// import { authClient } from '@/lib/better-auth-client';
 import UserAvatar from './user-avatar';
 import UserInfo from './user-info';
 
@@ -31,19 +30,21 @@ interface UserDropdownProps {
 
 const UserDropdown = ({ user, isMobile }: UserDropdownProps) => {
 	const router = useRouter();
-	const [isLoading, setIsLoading] = useState(false);
+
+	const [isPending, startTransition] = useTransition();
 
 	const handleSignOut = async () => {
-		setIsLoading(true);
-		try {
-			await signOutAction();
-
-			router.push(AppRoutes.SIGN_IN);
-		} catch (error) {
-			console.error('Erro ao fazer logout:', error);
-		} finally {
-			setIsLoading(false);
-		}
+		startTransition(async () => {
+			try {
+				await authClient.signOut({
+					fetchOptions: {
+						onSuccess: () => router.push(AppRoutes.SIGN_IN),
+					},
+				});
+			} catch (error) {
+				console.error('Erro ao fazer logout:', error);
+			}
+		});
 	};
 
 	return (
@@ -83,10 +84,10 @@ const UserDropdown = ({ user, isMobile }: UserDropdownProps) => {
 							type="button"
 							onClick={handleSignOut}
 							className="w-full"
-							disabled={isLoading}
+							disabled={isPending}
 						>
 							<LogOut color={COLORS.PRIMARY} />
-							{isLoading ? 'Saindo...' : 'Sair'}
+							{isPending ? 'Saindo...' : 'Sair'}
 						</button>
 					</DropdownMenuItem>
 				</DropdownMenuGroup>

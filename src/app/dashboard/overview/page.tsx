@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
 import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 
 import { hasPurchases } from '@/actions/purchase-actions/has-purchases-action';
+import { AppRoutes } from '@/enums/app-routes';
 import { auth } from '@/lib/better-auth';
 import { prisma } from '@/lib/prisma-client';
 
@@ -21,7 +23,8 @@ export const metadata: Metadata = {
 const OverviewPage = async () => {
 	const session = await auth.api.getSession({ headers: await headers() });
 	const userId = session?.user?.id;
-
+	if (!userId) redirect(AppRoutes.SIGN_IN);
+  
 	const hasUserPurchases = await hasPurchases();
 
 	const purchases = await prisma.purchase.findMany({

@@ -1,5 +1,7 @@
 import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
 
+import { AppRoutes } from '@/enums/app-routes';
 import { auth } from '@/lib/better-auth';
 import { prisma } from '@/lib/prisma-client';
 
@@ -8,12 +10,10 @@ import DeleteAccountForm from './components/delete-account-form';
 import ProfileImageForm from './components/profile-image-form';
 import ProfileNameForm from './components/profile-name-form';
 import ProfilePasswordForm from './components/profile-password-form';
-
 export default async function SettingsPage() {
 	const session = await auth.api.getSession({ headers: await headers() });
 	const userId = session?.user?.id;
-
-	if (!userId) return null;
+	if (!userId) redirect(AppRoutes.SIGN_IN);
 
 	const user = await prisma.user.findUnique({
 		where: { id: userId },

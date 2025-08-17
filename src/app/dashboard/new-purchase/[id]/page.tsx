@@ -1,8 +1,9 @@
 import { headers } from 'next/headers';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import { Suspense } from 'react';
 
 import { Separator } from '@/components/ui/separator';
+import { AppRoutes } from '@/enums/app-routes';
 import { ProductType } from '@/hooks/use-optimistic-products';
 import { auth } from '@/lib/better-auth';
 import { prisma } from '@/lib/prisma-client';
@@ -19,11 +20,14 @@ const NewPurchasePage = async ({ params }: NewPurchasePageProps) => {
 	const { id: purchaseId } = await params;
 	if (!purchaseId) return { error: 'ID da compra não encontrado.' };
 
-	const session = await auth.api.getSession({ headers: await headers() });
-	if (!session) return { error: 'Sessão inválida.' };
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
+	const userId = session?.user.id;
+	if (!userId) redirect(AppRoutes.SIGN_IN);
 
 	const purchase = await prisma.purchase.findFirst({
-		where: { id: purchaseId, userId: session.user.id },
+		where: { id: purchaseId, userId },
 		include: { products: { orderBy: { createdAt: 'desc' } } },
 	});
 

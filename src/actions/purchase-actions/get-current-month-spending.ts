@@ -1,8 +1,26 @@
-import { PurchaseStatus } from 'generated/prisma';
+'use server';
 
+import { PurchaseStatus } from 'generated/prisma';
+import { headers } from 'next/headers';
+
+import { auth } from '@/lib/better-auth';
 import { prisma } from '@/lib/prisma-client';
 
 export const getCurrentMonthSpending = async () => {
+	const session = await auth.api.getSession({ headers: await headers() });
+	const userId = session?.user?.id;
+	if (!userId) return {
+		currentMonthTotal: 0,
+		previousMonthTotal: 0,
+		percentageChange: 0,
+		changeType: 'no-comparison' as const,
+		hasCurrentMonthPurchases: false,
+		hasPreviousMonthPurchases: false,
+		currentMonthName: '',
+		previousMonthName: '',
+		currentMonthPurchasesCount: 0,
+	};
+
 	const now = new Date();
 	const currentYear = now.getFullYear();
 	const currentMonth = now.getMonth();
@@ -32,6 +50,7 @@ export const getCurrentMonthSpending = async () => {
 	const [currentMonthPurchases, previousMonthPurchases] = await Promise.all([
 		prisma.purchase.findMany({
 			where: {
+				userId,
 				status: PurchaseStatus.COMPLETED,
 				completedAt: {
 					gte: currentMonthStart,
@@ -41,6 +60,7 @@ export const getCurrentMonthSpending = async () => {
 		}),
 		prisma.purchase.findMany({
 			where: {
+				userId,
 				status: PurchaseStatus.COMPLETED,
 				completedAt: {
 					gte: previousMonthStart,

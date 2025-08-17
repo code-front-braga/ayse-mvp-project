@@ -7,6 +7,7 @@ import {
 	TrendingDown,
 	TrendingUp,
 } from 'lucide-react';
+import { headers } from 'next/headers';
 import Link from 'next/link';
 
 import { getCurrentMonthSpending } from '@/actions/purchase-actions/get-current-month-spending';
@@ -21,6 +22,7 @@ import {
 import { AppRoutes } from '@/enums/app-routes';
 import { COLORS } from '@/enums/colors';
 import { stringUtils } from '@/helpers/string-utils';
+import { auth } from '@/lib/better-auth';
 import { prisma } from '@/lib/prisma-client';
 import { cn } from '@/lib/utils';
 
@@ -29,6 +31,11 @@ import CustomCardActionWithTooltip from './custom-card-action-with-tooltip';
 import EmptyState from './empty-state';
 
 const Cards = async () => {
+	const session = await auth.api.getSession({ headers: await headers() });
+	const userId = session?.user?.id;
+
+	if (!userId) return <EmptyState />;
+
 	const [
 		allCompletedPurchases,
 		lastPurchase,
@@ -36,7 +43,10 @@ const Cards = async () => {
 		currentMonthData,
 	] = await Promise.all([
 		prisma.purchase.findMany({
-			where: { status: PurchaseStatus.COMPLETED },
+			where: {
+				userId,
+				status: PurchaseStatus.COMPLETED
+			},
 			orderBy: { completedAt: 'desc' },
 			include: { products: true },
 		}),

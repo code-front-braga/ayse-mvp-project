@@ -1,9 +1,11 @@
 import { ArrowLeft } from 'lucide-react';
+import { headers } from 'next/headers';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { AppRoutes } from '@/enums/app-routes';
+import { auth } from '@/lib/better-auth';
 import { prisma } from '@/lib/prisma-client';
 
 import DashboardHeader from '../../components/shared/dashboard-header';
@@ -20,8 +22,13 @@ interface PurchaseDetailsProps {
 const PurchaseDetails = async ({ params }: PurchaseDetailsProps) => {
 	const { id } = await params;
 
+	const session = await auth.api.getSession({ headers: await headers() });
+	const userId = session?.user?.id;
+
+	if (!userId) return notFound();
+
 	const purchase = await prisma.purchase.findFirst({
-		where: { id },
+		where: { id, userId },
 		include: {
 			products: true,
 		},

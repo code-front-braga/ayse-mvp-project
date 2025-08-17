@@ -1,7 +1,9 @@
 'use server';
 
 import { PurchaseStatus } from 'generated/prisma';
+import { headers } from 'next/headers';
 
+import { auth } from '@/lib/better-auth';
 import { prisma } from '@/lib/prisma-client';
 
 export interface MonthlyPurchaseData {
@@ -10,9 +12,23 @@ export interface MonthlyPurchaseData {
 }
 
 export async function getMonthlyPurchases(): Promise<MonthlyPurchaseData[]> {
+	// Obter o userId da sessão autenticada
+	const session = await auth.api.getSession({ headers: await headers() });
+	const userId = session?.user?.id;
+
+	// Se não houver usuário autenticado, retornar dados vazios
+	if (!userId) {
+		const currentDate = new Date();
+		return [{
+			month: currentDate.toLocaleString('pt-BR', { month: 'long', year: 'numeric' }),
+			total: 0
+		}];
+	}
+
 	// Buscar a data da primeira compra do usuário
 	const firstPurchase = await prisma.purchase.findFirst({
 		where: {
+			userId, // Adicionar filtro por userId
 			status: {
 				not: PurchaseStatus.CANCELLED
 			}
@@ -51,6 +67,7 @@ export async function getMonthlyPurchases(): Promise<MonthlyPurchaseData[]> {
 
 	const purchases = await prisma.purchase.findMany({
 		where: {
+			userId, // Adicionar filtro por userId
 			date: {
 				gte: startDate,
 			},

@@ -1,5 +1,6 @@
 'use client';
 
+import { ReactNode } from 'react';
 import {
 	Bar,
 	BarChart,
@@ -64,8 +65,8 @@ const OverviewBarChart = ({ chartData }: DashboardBarChartProps) => {
 						position="top"
 						offset={12}
 						fontSize={12}
-						formatter={(value: number) =>
-							value.toLocaleString('pt-br', {
+						formatter={(value: number | ReactNode) =>
+							Number(value).toLocaleString('pt-br', {
 								style: 'currency',
 								currency: 'BRL',
 								minimumFractionDigits: 2,

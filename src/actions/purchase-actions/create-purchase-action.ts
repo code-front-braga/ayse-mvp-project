@@ -11,7 +11,9 @@ import { CreatePurchaseSchema } from './purchase-schema';
 
 export const createPurchaseAction = async (data: CreatePurchaseSchema) => {
 	const session = await auth.api.getSession({ headers: await headers() });
-	if (!session?.user?.id) {
+  const userId = session?.user?.id;
+
+	if (!userId) {
 		return { error: 'Usuário não autenticado.' };
 	}
 
@@ -22,12 +24,12 @@ export const createPurchaseAction = async (data: CreatePurchaseSchema) => {
 				address: data.address,
 				date: data.date,
 				total: 0,
-				userId: session.user.id,
+				userId,
 			},
 		});
 
 		revalidatePath(AppRoutes.DASHBOARD_NEW_PURCHASE);
-    
+
 		return { success: true, purchaseId: purchase.id };
 	} catch (error) {
 		console.error('Erro ao criar compra:', error);

@@ -8,4 +8,6 @@ export enum AppRoutes {
 	DASHBOARD_PURCHASES = '/dashboard/purchases',
 	DASHBOARD_SETTINGS = '/dashboard/settings',
 	DASHBOARD_NEW_PURCHASE = '/dashboard/new-purchase',
+	FORGOT_PASSWORD = '/forgot-password',
+	RESET_PASSWORD = '/reset-password',
 }

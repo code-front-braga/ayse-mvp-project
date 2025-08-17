@@ -28,7 +28,7 @@ export default async function SettingsPage() {
 				title="Configurações"
 				description="Gereencie suas configurações de conta e preferências."
 			/>
-			<div className="grid gap-6">
+			<div className="mx-auto grid w-full max-w-lg gap-6">
 				<ProfileImageForm user={user} />
 				<ProfileNameForm user={user} />
 				<ProfilePasswordForm />

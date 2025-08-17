@@ -10,7 +10,11 @@ interface UserAvatarProps {
 const UserAvatar = ({ user }: UserAvatarProps) => {
 	return (
 		<Avatar className="size-8 rounded-lg">
-			<AvatarImage src={user.image ?? ''} alt={user.name ?? ''} />
+			<AvatarImage
+				src={user.image ?? undefined}
+				alt={user.name ?? ''}
+				className="object-cover"
+			/>
 			<AvatarFallback className="rounded-lg">
 				{stringUtils.getFirstLettersUpperCase(user.name!)}
 			</AvatarFallback>

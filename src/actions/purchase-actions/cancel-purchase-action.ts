@@ -20,7 +20,6 @@ export const cancelPurchaseAction = async (purchaseId: string) => {
 		});
 		if (!existingPurchase) return { error: 'Compra não encontrada.' };
 
-		// Atualizar o status para CANCELLED em vez de excluir
 		await prisma.purchase.update({
 			where: { id: purchaseId, userId },
 			data: { status: PurchaseStatus.CANCELLED },

@@ -12,11 +12,11 @@ import ProfileNameForm from './components/profile-name-form';
 import ProfilePasswordForm from './components/profile-password-form';
 export default async function SettingsPage() {
 	const session = await auth.api.getSession({ headers: await headers() });
-	const userId = session?.user?.id;
-	if (!userId) redirect(AppRoutes.SIGN_IN);
+	const userEmail = session?.user?.email;
+	if (!userEmail) redirect(AppRoutes.SIGN_IN);
 
 	const user = await prisma.user.findUnique({
-		where: { id: userId },
+		where: { email: userEmail },
 		select: { id: true, name: true, email: true, image: true },
 	});
 

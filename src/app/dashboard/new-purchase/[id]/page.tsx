@@ -24,7 +24,8 @@ const NewPurchasePage = async ({ params }: NewPurchasePageProps) => {
 		headers: await headers(),
 	});
 	const userId = session?.user.id;
-	if (!userId) redirect(AppRoutes.SIGN_IN);
+	const userEmail = session?.user?.email;
+	if (!userEmail) redirect(AppRoutes.SIGN_IN);
 
 	const purchase = await prisma.purchase.findFirst({
 		where: { id: purchaseId, userId },

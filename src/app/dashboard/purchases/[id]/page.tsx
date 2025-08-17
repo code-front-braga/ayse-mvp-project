@@ -1,7 +1,7 @@
 import { ArrowLeft } from 'lucide-react';
 import { headers } from 'next/headers';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { AppRoutes } from '@/enums/app-routes';
@@ -24,6 +24,8 @@ const PurchaseDetails = async ({ params }: PurchaseDetailsProps) => {
 
 	const session = await auth.api.getSession({ headers: await headers() });
 	const userId = session?.user?.id;
+	const userEmail = session?.user?.email;
+	if (!userEmail) redirect(AppRoutes.SIGN_IN);
 
 	if (!userId) return notFound();
 

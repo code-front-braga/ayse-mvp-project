@@ -23,8 +23,9 @@ export const metadata: Metadata = {
 const OverviewPage = async () => {
 	const session = await auth.api.getSession({ headers: await headers() });
 	const userId = session?.user?.id;
-	if (!userId) redirect(AppRoutes.SIGN_IN);
-  
+	const userEmail = session?.user?.email;
+	if (!userEmail) redirect(AppRoutes.SIGN_IN);
+
 	const hasUserPurchases = await hasPurchases();
 
 	const purchases = await prisma.purchase.findMany({

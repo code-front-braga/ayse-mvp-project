@@ -1,10 +1,10 @@
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 
-import { getUserByEmail } from '@/actions/user-actions';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { AppRoutes } from '@/enums/app-routes';
 import { auth } from '@/lib/better-auth';
+import { prisma } from '@/lib/prisma-client';
 
 import AppSidebar from './components/sidebar/app-sidebar';
 import { PurchaseFormModalProvider } from './contexts/purchase-form-modal-context';
@@ -17,10 +17,14 @@ const DashboardLayout = async ({ children }: DashboardLayoutProps) => {
 	const session = await auth.api.getSession({
 		headers: await headers(),
 	});
-	if (!session?.user) redirect(AppRoutes.SIGN_IN);
+	const userEmail = session?.user?.email;
+	if (!userEmail) redirect(AppRoutes.SIGN_IN);
 
-	const user = await getUserByEmail(session.user.email);
-	if (!user) redirect(AppRoutes.SIGN_IN);
+	const user = await prisma.user.findUnique({
+		where: { email: userEmail },
+		select: { id: true, name: true, email: true, image: true },
+	});
+	if (!user) return null;
 
 	return (
 		<PurchaseFormModalProvider>

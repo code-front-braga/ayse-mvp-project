@@ -1,3 +1,5 @@
+'use client';
+
 import { User } from 'generated/prisma';
 import { EllipsisVertical, LogOut, UserRoundCog } from 'lucide-react';
 import Link from 'next/link';
@@ -28,8 +30,8 @@ interface UserDropdownProps {
 const UserDropdown = ({ user, isMobile }: UserDropdownProps) => {
 	const router = useRouter();
 
-	const handleSignOut = () => {
-		authClient.signOut({
+	const handleSignOut = async () => {
+		await authClient.signOut({
 			fetchOptions: { onSuccess: () => router.push(AppRoutes.SIGN_IN) },
 		});
 	};

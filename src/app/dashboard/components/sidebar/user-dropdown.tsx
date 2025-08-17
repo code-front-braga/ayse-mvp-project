@@ -19,8 +19,8 @@ import {
 import { SidebarMenuButton } from '@/components/ui/sidebar';
 import { AppRoutes } from '@/enums/app-routes';
 import { COLORS } from '@/enums/colors';
-import { authClient } from '@/lib/better-auth-client';
 
+// import { authClient } from '@/lib/better-auth-client';
 import UserAvatar from './user-avatar';
 import UserInfo from './user-info';
 
@@ -36,13 +36,8 @@ const UserDropdown = ({ user, isMobile }: UserDropdownProps) => {
 	const handleSignOut = async () => {
 		setIsLoading(true);
 		try {
-			// Primeiro, chama a server action para fazer logout no servidor
 			await signOutAction();
 
-			// Em seguida, faz logout no cliente para atualizar o estado
-			await authClient.signOut();
-
-			// Redireciona para a página de login
 			router.push(AppRoutes.SIGN_IN);
 		} catch (error) {
 			console.error('Erro ao fazer logout:', error);

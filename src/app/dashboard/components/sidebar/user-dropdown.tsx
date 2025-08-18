@@ -39,6 +39,7 @@ const UserDropdown = ({ user, isMobile }: UserDropdownProps) => {
 				await authClient.signOut({
 					fetchOptions: {
 						onSuccess: () => router.push(AppRoutes.SIGN_IN),
+						cache: 'no-store',
 					},
 				});
 			} catch (error) {

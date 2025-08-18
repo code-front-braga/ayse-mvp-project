@@ -44,7 +44,10 @@ export const SignInForm = () => {
 				password: data.password,
 
 				fetchOptions: {
-					onSuccess: () => {
+					onSuccess: async () => {
+						await authClient.getSession({
+							query: { disableCookieCache: true },
+						});
 						toast.success('Login realizado com sucesso!');
 						router.push(AppRoutes.DASHBOARD_OVERVIEW);
 					},

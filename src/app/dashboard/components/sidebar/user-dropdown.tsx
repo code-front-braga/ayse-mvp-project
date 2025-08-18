@@ -38,8 +38,12 @@ const UserDropdown = ({ user, isMobile }: UserDropdownProps) => {
 			try {
 				await authClient.signOut({
 					fetchOptions: {
-						onSuccess: () => router.push(AppRoutes.SIGN_IN),
-						cache: 'no-store',
+						onSuccess: async () => {
+							await authClient.getSession({
+								query: { disableCookieCache: true },
+							});
+							router.push(AppRoutes.SIGN_IN);
+						},
 					},
 				});
 			} catch (error) {

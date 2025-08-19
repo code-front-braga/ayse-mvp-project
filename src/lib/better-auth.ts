@@ -1,6 +1,5 @@
 import { betterAuth } from 'better-auth';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
-import { nextCookies } from 'better-auth/next-js';
 
 import { prisma } from './prisma-client';
 
@@ -18,13 +17,11 @@ export const auth = betterAuth({
 	},
 	session: {
 		cookieCache: {
-			enabled: true,
+			enabled: false,
 		},
-		disableSessionRefresh: true,
+		disableSessionRefresh: false,
 	},
 	database: prismaAdapter(prisma, {
 		provider: 'postgresql',
 	}),
-
-	plugins: [nextCookies()],
 });

@@ -43,6 +43,7 @@ const UserDropdown = ({ user, isMobile }: UserDropdownProps) => {
 								query: { disableCookieCache: true },
 							});
 							router.push(AppRoutes.SIGN_IN);
+							router.refresh();
 						},
 					},
 				});

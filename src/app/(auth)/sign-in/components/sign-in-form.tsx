@@ -48,8 +48,9 @@ export const SignInForm = () => {
 						await authClient.getSession({
 							query: { disableCookieCache: true },
 						});
-						toast.success('Login realizado com sucesso!');
 						router.push(AppRoutes.DASHBOARD_OVERVIEW);
+						router.refresh();
+						toast.success('Login realizado com sucesso!');
 					},
 					onError: ctx => {
 						if (ctx.error.code === 'INVALID_EMAIL_OR_PASSWORD') {

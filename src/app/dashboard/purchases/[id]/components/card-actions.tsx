@@ -1,11 +1,12 @@
 'use client';
 
 import { Purchase } from 'generated/prisma';
-import { TriangleAlert } from 'lucide-react';
+import { FileText, TriangleAlert } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useCallback, useState, useTransition } from 'react';
 import { toast } from 'sonner';
 
+import { getPurchasePdfDataAction } from '@/actions/purchase-actions/get-purchase-pdf-data-action';
 import { permanentDeletePurchaseAction } from '@/actions/purchase-actions/permanent-delete-purchase-action';
 import {
 	AlertDialog,
@@ -22,6 +23,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { AppRoutes } from '@/enums/app-routes';
+import { generatePurchasePDF } from '@/helpers/pdf-generator';
 import { cn } from '@/lib/utils';
 
 interface CardActionsProps {
@@ -31,6 +33,7 @@ interface CardActionsProps {
 const CardActions = ({ purchase }: CardActionsProps) => {
 	const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 	const [isPending, startTransition] = useTransition();
+	const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
 
 	const router = useRouter();
 
@@ -50,6 +53,28 @@ const CardActions = ({ purchase }: CardActionsProps) => {
 		});
 	}, [purchase.id, router, startTransition]);
 
+	const handleGeneratePdf = useCallback(async () => {
+		setIsGeneratingPdf(true);
+		try {
+			const response = await getPurchasePdfDataAction(purchase.id);
+
+			if (response.error) {
+				toast.error(response.error);
+				return;
+			}
+
+			if (response.success && response.data) {
+				generatePurchasePDF(response.data);
+				toast.success('PDF gerado com sucesso!');
+			}
+		} catch (error) {
+			console.error('Erro ao gerar PDF:', error);
+			toast.error('Erro ao gerar PDF');
+		} finally {
+			setIsGeneratingPdf(false);
+		}
+	}, [purchase.id]);
+
 	return (
 		<>
 			<Card className="h-full w-full flex-1">
@@ -60,12 +85,14 @@ const CardActions = ({ purchase }: CardActionsProps) => {
 					<div className="mt-4 flex flex-col space-y-2">
 						<Button
 							variant="outline"
-							disabled={true}
+							onClick={handleGeneratePdf}
+							disabled={isGeneratingPdf || isCancelled}
 							className={cn('w-full text-xs lg:text-sm', {
 								'cursor-not-allowed bg-gray-100': isCancelled,
 							})}
 						>
-							Exportar PDF
+							<FileText className="mr-2 h-4 w-4" />
+							{isGeneratingPdf ? 'Gerando PDF...' : 'Exportar PDF'}
 						</Button>
 						<Button
 							onClick={() => setShowDeleteDialog(true)}

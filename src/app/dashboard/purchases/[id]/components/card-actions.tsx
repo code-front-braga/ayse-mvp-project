@@ -60,6 +60,7 @@ const CardActions = ({ purchase }: CardActionsProps) => {
 					<div className="mt-4 flex flex-col space-y-2">
 						<Button
 							variant="outline"
+							disabled={true}
 							className={cn('w-full text-xs lg:text-sm', {
 								'cursor-not-allowed bg-gray-100': isCancelled,
 							})}

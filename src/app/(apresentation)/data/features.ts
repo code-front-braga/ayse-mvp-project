@@ -1,11 +1,11 @@
 import {
+	BarChart3,
+	Cpu,
+	DollarSign,
+	Download,
 	LucideIcon,
-	MapPin,
-	PieChart,
-	Receipt,
-	ShoppingCart,
-	Target,
-	TrendingUp,
+	Palette,
+	ShoppingBag,
 } from 'lucide-react';
 
 export interface Feature {
@@ -17,45 +17,45 @@ export interface Feature {
 
 export const features: Feature[] = [
 	{
-		id: 'digitalizacao-notas',
-		icon: Receipt,
-		title: 'Digitalização de Notas',
-		description:
-			'Escaneie suas notas fiscais e tenha todos os dados organizados automaticamente',
-	},
-	{
 		id: 'controle-gastos',
-		icon: ShoppingCart,
+		icon: DollarSign,
 		title: 'Controle de Gastos',
 		description:
-			'Acompanhe seus gastos em tempo real e saiba exatamente onde seu dinheiro está sendo gasto',
+			'Monitore e gerencie todos os seus gastos de forma inteligente e organizada',
 	},
 	{
-		id: 'localizacao-produtos',
-		icon: MapPin,
-		title: 'Localização de Produtos',
+		id: 'exportar-pdf',
+		icon: Download,
+		title: 'Exportar Compra em PDF',
 		description:
-			'Encontre os melhores preços nos supermercados próximos a você',
+			'Gere relatórios em PDF das suas compras finalizadas para controle e arquivo',
 	},
 	{
-		id: 'analise-categorias',
-		icon: PieChart,
-		title: 'Análise por Categorias',
+		id: 'graficos-tabelas',
+		icon: BarChart3,
+		title: 'Gráficos e Tabelas',
 		description:
-			'Veja quanto gasta em cada categoria: alimentação, limpeza, higiene e muito mais',
+			'Visualize suas compras através de gráficos interativos e tabelas detalhadas',
 	},
 	{
-		id: 'relatorios-detalhados',
-		icon: TrendingUp,
-		title: 'Relatórios Detalhados',
+		id: 'interface-intuitiva',
+		icon: Palette,
+		title: 'Interface Intuitiva',
 		description:
-			'Gráficos e relatórios que mostram tendências de gastos e oportunidades de economia',
+			'Design moderno e fácil de usar, pensado para uma experiência fluida e eficiente',
 	},
 	{
-		id: 'metas-economia',
-		icon: Target,
-		title: 'Metas de Economia',
+		id: 'controle-compras',
+		icon: ShoppingBag,
+		title: 'Controle de Compras',
 		description:
-			'Defina orçamentos mensais e receba alertas para manter seus gastos sob controle',
+			'Gerencie todas as suas compras com histórico completo e análises detalhadas',
+	},
+	{
+		id: 'tecnologia-moderna',
+		icon: Cpu,
+		title: 'Tecnologia Moderna',
+		description:
+			'Desenvolvido com as mais recentes tecnologias para performance e confiabilidade',
 	},
 ];

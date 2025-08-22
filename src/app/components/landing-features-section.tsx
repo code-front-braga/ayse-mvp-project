@@ -6,11 +6,10 @@ const LandingFeaturesSection = () => {
 		<section id="resources" className="container mx-auto px-4 py-12 sm:py-20">
 			<div className="mb-12 text-center sm:mb-16">
 				<h2 className="mb-3 text-2xl font-bold text-gray-900 sm:mb-4 sm:text-4xl">
-					Recursos Inteligentes
+					Funcionalidades Principais
 				</h2>
 				<p className="mx-auto max-w-2xl px-2 text-base text-gray-600 sm:text-xl">
-					Ferramentas poderosas para transformar a forma como você controla seus
-					gastos no supermercado
+					Controle completo das suas compras com tecnologia moderna e interface intuitiva
 				</p>
 			</div>
 

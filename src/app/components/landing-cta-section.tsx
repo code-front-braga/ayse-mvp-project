@@ -8,9 +8,8 @@ const LandingCtaSection = () => {
 					Pronto para economizar nas compras?
 				</h2>
 				<p className="mb-6 px-2 text-base text-gray-600 sm:mb-8 sm:text-xl">
-					Junte-se a milhares de usuários que já estão controlando seus gastos
-					no supermercado
-				</p>
+				Comece agora a controlar seus gastos de forma inteligente e organizada
+			</p>
 				<SmartAuthButton
 					size="lg"
 					className="w-full px-6 py-3 text-base sm:w-auto sm:px-8 sm:py-6 sm:text-lg"

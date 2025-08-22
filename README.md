@@ -51,8 +51,8 @@ Siga os passos abaixo para configurar e executar o projeto:
 **1. Clone o repositório**
 
 ```bash
-git clone [URL_DO_REPOSITORIO]
-cd mvp-ayse
+git clone git@github.com:code-front-braga/ayse-mvp-project.git
+cd ayse-mvp-project
 ```
 
 **2. Instale as dependências**
@@ -101,29 +101,34 @@ A aplicação estará disponível em `http://localhost:3000`
 🎯 **Funcionalidades Principais**
 
 **Dashboard Overview**
+
 - Cards com estatísticas de gastos
 - Gráfico de gastos mensais
 - Tabela com últimas compras
 - Estado vazio para novos usuários
 
 **Gerenciamento de Compras**
+
 - Criação de nova compra por supermercado
 - Adição de produtos com detalhes completos
 - Controle de status da compra
 - Visualização detalhada de cada compra
 
 **Histórico e Relatórios**
+
 - Lista completa de todas as compras
 - Filtros por status e busca por texto
 - Paginação para grandes volumes de dados
 - Exportação de relatórios em PDF
 
 **Configurações**
+
 - Atualização de perfil e foto
 - Alteração de senha
 - Exclusão de conta
 
 🔒 **Segurança**
+
 - Autenticação com Better-auth
 - Validação de dados com Zod
 - Proteção de rotas
@@ -131,6 +136,7 @@ A aplicação estará disponível em `http://localhost:3000`
 - Controle de acesso por usuário
 
 📱 **Responsividade**
+
 - Design mobile-first
 - Componentes adaptativos
 - Navegação otimizada para touch

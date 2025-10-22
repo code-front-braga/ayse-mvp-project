@@ -168,5 +168,6 @@ export default function ProfileImageForm({ user }: ProfileImageFormProps) {
 				className="left-[999px] hidden"
 			/>
 		</Card>
+    
 	);
 }

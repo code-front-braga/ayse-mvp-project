@@ -1,3 +1,4 @@
+import { GoogleAnalytics } from '@next/third-parties/google';
 import { Metadata } from 'next';
 
 import LandingBenefitsSection from '../components/landing-benefits-section';
@@ -46,6 +47,7 @@ export const metadata: Metadata = {
 const LandingPage = () => {
 	return (
 		<div className="from-primary/10 to-primary/5 via-background min-h-screen bg-gradient-to-br">
+			<GoogleAnalytics gaId="G-9KW27EV2L1" />
 			<LandingHeader />
 			<LandingHeroSection />
 			<LandingFeaturesSection />

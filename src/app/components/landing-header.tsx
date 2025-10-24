@@ -12,12 +12,6 @@ import { AppRoutes } from '@/enums/app-routes';
 const LandingHeader = () => {
 	const router = useRouter();
 
-	const handleClick = () => {
-		router.push(AppRoutes.SIGN_IN);
-
-		sendGAEvent('event', 'form_clicked', { value: 'to_sign_in' });
-	};
-
 	return (
 		<header className="container mx-auto px-4 py-4 sm:py-6">
 			<nav className="flex items-center justify-between">
@@ -33,7 +27,16 @@ const LandingHeader = () => {
 					</div>
 				</div>
 				<div className="flex items-center gap-2 text-black sm:gap-4">
-					<Button onClick={handleClick} variant="ghost" size="sm" className="">
+					<Button
+						onClick={() => {
+							router.push(AppRoutes.SIGN_IN);
+
+							sendGAEvent('event', 'login_button', { value: 'to_sign_in' });
+						}}
+						variant="ghost"
+						size="sm"
+						className=""
+					>
 						{/* <Link href={AppRoutes.SIGN_IN} prefetch={true}> */}
 						Entrar
 						{/* </Link> */}

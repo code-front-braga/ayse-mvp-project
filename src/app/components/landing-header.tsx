@@ -32,14 +32,8 @@ const LandingHeader = () => {
 						</span>
 					</div>
 				</div>
-				<div className="flex items-center gap-2 sm:gap-4">
-					<Button
-						onClick={handleClick}
-						asChild
-						variant="ghost"
-						size="sm"
-						className="sm:flex"
-					>
+				<div className="flex items-center gap-2 text-black sm:gap-4">
+					<Button onClick={handleClick} variant="ghost" size="sm" className="">
 						{/* <Link href={AppRoutes.SIGN_IN} prefetch={true}> */}
 						Entrar
 						{/* </Link> */}

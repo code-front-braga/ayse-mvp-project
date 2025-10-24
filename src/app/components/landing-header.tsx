@@ -38,7 +38,7 @@ const LandingHeader = () => {
 						asChild
 						variant="ghost"
 						size="sm"
-						className="hidden sm:flex"
+						className="sm:flex"
 					>
 						{/* <Link href={AppRoutes.SIGN_IN} prefetch={true}> */}
 						Entrar

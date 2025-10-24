@@ -1,11 +1,23 @@
+'use client';
+
+import { sendGAEvent } from '@next/third-parties/google';
 import { ChartNoAxesCombined } from 'lucide-react';
-import Link from 'next/link';
+// import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 import { SmartAuthButton } from '@/components/smart-auth-button';
 import { Button } from '@/components/ui/button';
 import { AppRoutes } from '@/enums/app-routes';
 
 const LandingHeader = () => {
+	const router = useRouter();
+
+	const handleClick = () => {
+		router.push(AppRoutes.SIGN_IN);
+
+		sendGAEvent('event', 'form_clicked', { value: 'to_sign_in' });
+	};
+
 	return (
 		<header className="container mx-auto px-4 py-4 sm:py-6">
 			<nav className="flex items-center justify-between">
@@ -21,10 +33,16 @@ const LandingHeader = () => {
 					</div>
 				</div>
 				<div className="flex items-center gap-2 sm:gap-4">
-					<Button asChild variant="ghost" size="sm" className="hidden sm:flex">
-						<Link href={AppRoutes.SIGN_IN} prefetch={true}>
-							Entrar
-						</Link>
+					<Button
+						onClick={handleClick}
+						asChild
+						variant="ghost"
+						size="sm"
+						className="hidden sm:flex"
+					>
+						{/* <Link href={AppRoutes.SIGN_IN} prefetch={true}> */}
+						Entrar
+						{/* </Link> */}
 					</Button>
 					<SmartAuthButton
 						size="sm"
